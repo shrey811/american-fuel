@@ -1,0 +1,102 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "ignorePatterns": ["dist", ".eslintrc.cjs"],
+  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "settings": {
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
+    "import/resolver": {
+      "typescript": {
+        "directory": "./tsconfig.json"
+      },
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "react/jsx-no-bind": "off",
+    "react/require-default-props": [
+      2,
+      {
+        "functions": "ignore"
+      }
+    ],
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "react/function-component-definition": [
+      1,
+      {
+        "namedComponents": [
+          "function-declaration",
+          "function-expression",
+          "arrow-function"
+        ],
+        "unnamedComponents": ["function-expression", "arrow-function"]
+      }
+    ],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "variableLike",
+        "format": [
+          "camelCase",
+          "strictCamelCase",
+          "PascalCase",
+          "StrictPascalCase",
+          "snake_case",
+          "UPPER_CASE"
+        ]
+      },
+      {
+        "selector": "parameter",
+        "leadingUnderscore": "require",
+        "format": null,
+        "modifiers": ["unused"]
+      }
+    ],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": ["state"]
+      }
+    ]
+  }
+}
+

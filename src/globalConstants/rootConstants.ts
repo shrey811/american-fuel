@@ -1,0 +1,52 @@
+export const API_URL = import.meta.env.VITE_API_URL;
+export const STORAGE_KEY = 'quick-smart';
+
+// const base_URL = 'http://localhost:8000';
+// const base_URL = 'https://qb.finliftconsulting.com.np'; //mahuwa
+const base_URL = 'https://qbtest.finliftconsulting.com.np'; //dev
+
+export const rootConstants = Object.freeze({
+  // TEST_URL: `${API_URL}`,
+  TEST_URL: `${base_URL}`,
+  SIGNUP_URL: `${base_URL}/users`,
+  LOGIN_URL: `${base_URL}/users/login`,
+  USER_URL: `${base_URL}/intuit/customers`,
+  INTUIT_URL: `${base_URL}/intuit/authorize`,
+  INTUIT_ACCESS_TOKEN_URL: `${base_URL}/token`,
+  CUSTOMER_URL: `${base_URL}/customers`,
+  BILL_ADDRESS_URL: `${base_URL}/customers/bill-address`,
+  SHIP_ADDRESS_URL: `${base_URL}/customers/ship-address`,
+  // CUSTOMER_INTUIT_URL: `${base_URL}/customers/get_intuit_db_temp`,
+  CUSTOMER_INTUIT_URL: `${base_URL}/customers/intuit`,
+  STATE_URL: `${base_URL}/locations/state`,
+  CITY_URL: `${base_URL}/locations/city`,
+  CITY_STATE_URL: `${base_URL}/locations`,
+  VENDOR_URL: `${base_URL}/vendors`,
+  // VENDOR_INTUIT_URL: `${base_URL}/vendors/get_intuit_db_temp`,
+  VENDOR_INTUIT_URL: `${base_URL}/vendors/intuit`,
+  BILL_ADDRESS_VENDOR_URL: `${base_URL}/vendors/bill-address`,
+  TERMINAL_VENDOR_URL: `${base_URL}/terminals`,
+  PRODUCT_URL: `${base_URL}/products`,
+  PRODUCT_CATEGORY_URL: `${base_URL}/products/product-category`,
+  PRODUCT_ALL_URL: `${base_URL}/products/product-category-all`,
+  CUSTOMER_ASSETS_URL: `${base_URL}/customers/customer-assets`,
+  PURCHASE_ORDER_URL: `${base_URL}/purchase-orders`,
+  SALSE_ORDER_URL: `${base_URL}/sale-orders`,
+  DROP_SHIPPING_URL: `${base_URL}/dropship`,
+  // PURCHASE_ORDER_INTUIT_URL: `${base_URL}/purchase-orders/get_intuit_db_temp`,
+  PURCHASE_ORDER_INTUIT_URL: `${base_URL}/purchase-orders/intuit`,
+  PRODUCT_INTUIT_URL: `${base_URL}/products/intuit`,
+  TAX_URL: `${base_URL}/taxes`,
+  TAX_RATE_URL: `${base_URL}/taxes/tax-rate`,
+  ACCOUNTS_URL: `${base_URL}/accounts`,
+  PRICINGRULE_URL: `${base_URL}/price_rule`,
+  FREIGHTRULE_URL: `${base_URL}/freight_rule`,
+  CUSTOMERPRICELIST_URL: `${base_URL}/customers/customer-price-list`,
+  CUSTOMEREMAIL_URL: `${base_URL}/customers/customer-send-email`,
+  OPISINDEX_URL: `${base_URL}/opis_index_cost`,
+  ADDITIONALCHARGES_URL: `${base_URL}/other_charges`,
+  // PRODUCT_INTUIT_URL: `${base_URL}/products/get_intuit_db_temp`,
+  ADDRESS_URL: `${base_URL}/addresses`,
+  STATIC_URL: `${base_URL}/static_data`,
+  REPORT_URL: `${base_URL}/reports/filter_by_date`,
+});
