@@ -17,4 +17,7 @@ export interface CustomerAssestDataType {
     AssetCategory: string,
     AssetMake: string,
     AssetModel: string,
+    ProductFIds: [] | number[];
+    Capacity: string,
+    AssestDescription: string,
 }

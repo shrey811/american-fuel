@@ -711,6 +711,23 @@ const SalesOrderForm = (props: Props) => {
 
     };
 
+    // const handleAssestChange = (index: number, event: any) => {
+    //     const { name, value } = event.target;
+
+    //     // Update DeliveryInfos array
+    //     const updatedAssets = initialData.DeliveryInfos.map((customersAsset, i) =>
+    //         i === index ? { ...customersAsset, [name]: value } : customersAsset
+    //     );
+
+    //     // Filter products for the selected asset
+    //     const selectedAsset = customerAssestList.find((item) => item.Id === value);
+    //     const filteredProducts = selectedAsset ? selectedAsset.ProductFIds.map((id) => productList.find((product) => product.Id === id)) : [];
+
+    //     setInitialData((prevData) => ({
+    //         ...prevData,
+    //         DeliveryInfos: updatedAssets.map((asset, i) => (i === index ? { ...asset, filteredProducts } : asset)),
+    //     }));
+    // };
 
 
     const calculateAmount = (index: any) => {
@@ -1614,7 +1631,7 @@ const SalesOrderForm = (props: Props) => {
                                 <TableRow sx={{ background: '#EFEFEF' }}>
                                     <TableCell>Asset Name</TableCell>
 
-
+                                    <TableCell>UniqueId</TableCell>
                                     <TableCell>Product</TableCell>
                                     <TableCell>DeliveryQuantity</TableCell>
                                     <TableCell>   Rate</TableCell>
@@ -1624,107 +1641,160 @@ const SalesOrderForm = (props: Props) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {initialData.DeliveryInfos.map((customersAsset, index) => (
-                                    <TableRow>
-                                        <TableCell sx={tableFormStyles}>
-                                            <Autocomplete
-                                                fullWidth
-                                                options={customerAssestList}
-                                                getOptionLabel={(option) => option.Name}
-                                                value={
-                                                    customerAssestList.find(
-                                                        (item) => item.Id === initialData.DeliveryInfos[index].CustomersAssetFId
-                                                    ) || null
-                                                }
+                                {initialData.DeliveryInfos.map((customersAsset, index) => {
+                                    const selectedAsset = customerAssestList.find(
+                                        (item) => item.Id === customersAsset.CustomersAssetFId
+                                    );
 
-                                                onChange={(event, value) => {
-                                                    handleAssestChange(index, {
-                                                        target: { name: "CustomersAssetFId", value: value ? value.Id : 0 },
-                                                    });
-                                                }}
-                                                renderInput={(params) => (
-                                                    <TextField
-                                                        {...params}
-                                                        size="small"
-                                                        name="CustomersAssetFId"
+                                    return (
+                                        <TableRow>
+                                            <TableCell sx={tableFormStyles}>
+                                                <Autocomplete
+                                                    fullWidth
+                                                    options={customerAssestList}
+                                                    getOptionLabel={(option) => option.Name}
+                                                    value={
+                                                        customerAssestList.find(
+                                                            (item) => item.Id === initialData.DeliveryInfos[index].CustomersAssetFId
+                                                        ) || null
+                                                    }
+
+                                                    onChange={(event, value) => {
+                                                        handleAssestChange(index, {
+                                                            target: { name: "CustomersAssetFId", value: value ? value.Id : 0 },
+                                                        });
+                                                    }}
+                                                    renderInput={(params) => (
+                                                        <TextField
+                                                            {...params}
+                                                            size="small"
+                                                            name="CustomersAssetFId"
+                                                            fullWidth
+                                                        />
+                                                    )}
+                                                />
+                                            </TableCell>
+                                            <TableCell sx={tableFormStyles}>
+                                                <TextValidator
+                                                    name="UniqueId"
+                                                    value={selectedAsset ? selectedAsset.UniqueId : 'N/A'} // Display UniqueId
+                                                    validators={['required']} // Add validation if necessary
+                                                    errorMessages={['This field is required']} // Error message if validation fails
+                                                    onChange={(e) => handleAssestChange(index, e)} // Handle changes if editable
+                                                    fullWidth
+                                                    disabled
+                                                    size="small"
+                                                    InputProps={{
+                                                        readOnly: true, // Make this field readonly since it's derived from selected asset
+                                                    }}
+                                                />
+                                            </TableCell>
+                                            <TableCell sx={tableFormStyles}>
+
+                                                {/* <Autocomplete
+                                                    fullWidth
+                                                    options={productList}
+                                                    getOptionLabel={(option) => option.Name}
+                                                    value={
+                                                        productList.find(
+                                                            (item) => item.Id === initialData.DeliveryInfos[index].ProductsFId
+                                                        ) || null
+                                                    }
+                                                    onChange={(event, value) => {
+                                                        handleAssestChange(index, {
+                                                            target: { name: "ProductsFId", value: value ? value.Id : 0 },
+                                                        });
+                                                    }}
+
+
+                                                    renderInput={(params) => (
+                                                        <TextField
+                                                            {...params}
+                                                            size="small"
+                                                            name="ProductsFId"
+                                                            fullWidth
+                                                        />
+                                                    )}
+                                                /> */}
+                                                <TableCell sx={tableFormStyles}>
+                                                    <Autocomplete
                                                         fullWidth
+                                                        options={
+                                                            customerAssestList.find((item) => item.Id === customersAsset.CustomersAssetFId)?.ProductFIds?.map(
+                                                                (productId) => productList.find((product) => product.Id === productId)
+                                                            )?.filter(Boolean) ?? [] // Ensure options is always an array
+                                                        }
+                                                        getOptionLabel={(option) => option?.Name || ''}
+                                                        value={
+                                                            productList.find((item) => item.Id === customersAsset.ProductsFId) || null
+                                                        }
+                                                        onChange={(event, value) => {
+                                                            handleAssestChange(index, {
+                                                                target: { name: "ProductsFId", value: value ? value.Id : 0 },
+                                                            });
+                                                        }}
+                                                        renderInput={(params) => (
+                                                            <TextField
+                                                                {...params}
+                                                                size="small"
+                                                                name="ProductsFId"
+                                                                fullWidth
+                                                            />
+                                                        )}
                                                     />
-                                                )}
-                                            />
-                                        </TableCell>
-                                        <TableCell sx={tableFormStyles}>
-
-                                            <Autocomplete
-                                                fullWidth
-                                                options={productList}
-                                                getOptionLabel={(option) => option.Name}
-                                                value={
-                                                    productList.find(
-                                                        (item) => item.Id === initialData.DeliveryInfos[index].ProductsFId
-                                                    ) || null
-                                                }
-                                                onChange={(event, value) => {
-                                                    handleAssestChange(index, {
-                                                        target: { name: "ProductsFId", value: value ? value.Id : 0 },
-                                                    });
-                                                }}
 
 
-                                                renderInput={(params) => (
-                                                    <TextField
-                                                        {...params}
-                                                        size="small"
-                                                        name="ProductsFId"
-                                                        fullWidth
-                                                    />
-                                                )}
-                                            />
-                                        </TableCell>
-                                        <TableCell sx={tableFormStyles}>
-                                            <TextValidator
-                                                name="DeliveryQuantity"
-                                                value={customersAsset.DeliveryQuantity}
-                                                onChange={(e) => handleAssestChange(index, e)}
-                                                type="number"
-                                                size="small"
-                                                fullWidth
-                                            />
-                                        </TableCell>
-                                        <TableCell sx={tableFormStyles}>
-                                            <TextValidator
-                                                name="Rate"
-                                                value={customersAsset.Rate}
-                                                onChange={(e) => handleAssestChange(index, e)}
-                                                type="number"
-                                                size="small"
-                                                fullWidth
-                                            />
-                                        </TableCell>
-                                        <TableCell sx={tableFormStyles}>
-                                            <TextValidator
-                                                select
-                                                name="Status"
-                                                value={customersAsset.Status}
-                                                onChange={(e) => handleAssestChange(index, e)}
-                                                validators={['required']}
-                                                errorMessages={['This field is required']}
-                                                fullWidth
-                                                size="small"
+                                                </TableCell>
 
-                                            >
-                                                <MenuItem value="Delivered" >Delivered</MenuItem>
-                                                <MenuItem value="Not Delivered">Not Delivered</MenuItem>
-                                            </TextValidator>
-                                        </TableCell>
-                                        <TableCell sx={{ padding: '0px' }}>
-                                            <Button variant="text" size="large" onClick={() => removecustomerAssest(index)}>
-                                                <Tooltip title="Remove Customer Assests" arrow placement="top">
-                                                    <RemoveCircle sx={{ color: 'darkred' }} />
-                                                </Tooltip>
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+
+
+                                            </TableCell>
+                                            <TableCell sx={tableFormStyles}>
+                                                <TextValidator
+                                                    name="DeliveryQuantity"
+                                                    value={customersAsset.DeliveryQuantity}
+                                                    onChange={(e) => handleAssestChange(index, e)}
+                                                    type="number"
+                                                    size="small"
+                                                    fullWidth
+                                                />
+                                            </TableCell>
+                                            <TableCell sx={tableFormStyles}>
+                                                <TextValidator
+                                                    name="Rate"
+                                                    value={customersAsset.Rate}
+                                                    onChange={(e) => handleAssestChange(index, e)}
+                                                    type="number"
+                                                    size="small"
+                                                    fullWidth
+                                                />
+                                            </TableCell>
+                                            <TableCell sx={tableFormStyles}>
+                                                <TextValidator
+                                                    select
+                                                    name="Status"
+                                                    value={customersAsset.Status}
+                                                    onChange={(e) => handleAssestChange(index, e)}
+                                                    validators={['required']}
+                                                    errorMessages={['This field is required']}
+                                                    fullWidth
+                                                    size="small"
+
+                                                >
+                                                    <MenuItem value="Delivered" >Delivered</MenuItem>
+                                                    <MenuItem value="Not Delivered">Not Delivered</MenuItem>
+                                                </TextValidator>
+                                            </TableCell>
+                                            <TableCell sx={{ padding: '0px' }}>
+                                                <Button variant="text" size="large" onClick={() => removecustomerAssest(index)}>
+                                                    <Tooltip title="Remove Customer Assests" arrow placement="top">
+                                                        <RemoveCircle sx={{ color: 'darkred' }} />
+                                                    </Tooltip>
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
                             </TableBody>
                         </Table>
                         <Box

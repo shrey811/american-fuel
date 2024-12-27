@@ -7,6 +7,7 @@ import { shallowEqual } from 'react-redux';
 import { toast } from 'react-toastify';
 import { addCustomerAssest, listCustomerAssest, updateCustomerAssest } from 'store/slices/customerassestsSlice';
 import { listCustomer } from 'store/slices/customerSlice';
+import { listProduct } from 'store/slices/productSlice';
 
 interface Props {
     onClose: () => void;
@@ -22,6 +23,10 @@ const CustomerAssetsInitialValues = {
     AssetCategory: "",
     AssetMake: "",
     AssetModel: "",
+    Capacity: 0,
+    ProductFIds: [] as number[],
+    AssetDescription: "",
+
 }
 
 const CustomerAssestForm = (props: Props) => {
@@ -38,11 +43,19 @@ const CustomerAssestForm = (props: Props) => {
             ...initialData, [name]: value
         });
     }
+    const handleProductAutocompleteChange = (newValue: any[]) => {
+        setInitialData({
+            ...initialData,
+            ProductFIds: newValue.map((product) => product.Id), // Extract IDs from selected products
+        });
+    };
+
     useEffect(() => {
         if (props.editData) {
             setInitialData(props.editData);
         }
         dispatch(listCustomer());
+        dispatch(listProduct());
         const selectedCustomer = customerList.find(item => item.Id === parseFloat(props.fetchCustomer.Id));
         if (selectedCustomer) {
             setDisplayName(selectedCustomer.DisplayName);
@@ -57,23 +70,22 @@ const CustomerAssestForm = (props: Props) => {
         ],
         shallowEqual
     );
-
-    const handleEditCustomer = () => {
-        // if (props.editData) {
-        //     return customerList.find(item => item.Id === initialData.CustomersFId) || null;
-        // } else {
-        //     return initialData.CustomersFId ? customerList.find(item => item.Id === initialData.CustomersFId) || null : null;
-        // }
-        return initialData.CustomersFId ? customerList.find(item => item.Id === initialData.CustomersFId) || null : null;
-    }
+    const [productList, listProductLoading] = useAppSelector(
+        (state) => [
+            state.productReducers.productList,
+            state.productReducers.listProductLoading
+        ],
+        shallowEqual
+    );
 
     const handleSubmit = async () => {
 
         try {
             if (props.editData) {
                 const action = await dispatch(updateCustomerAssest({
-                    customerAssest_id: props.editData.Id,
-                    ...initialData
+                    customerAssest_id: props.fetchCustomer.Id,
+                    ...initialData,
+                    CustomersFId: props.fetchCustomer.Id
                 }));
                 ;
                 setInitialData({ ...initialData });
@@ -91,14 +103,6 @@ const CustomerAssestForm = (props: Props) => {
                 const customerAssest_id = props.fetchCustomer.Id;
                 dispatch(listCustomerAssest(customerAssest_id));
                 props.onClose();
-                // if (response.message.code === "SUCCESS") {
-                //     // dispatch(stateList())
-                //     // await dispatch(listCustomerAssest());
-                //     //     }
-
-                //     toast.success("Something went wrong");
-
-                // }
             }
         } catch (error) {
             toast.error("Something went wrong");
@@ -140,7 +144,6 @@ const CustomerAssestForm = (props: Props) => {
                             onChange={handleChange}
                             name="UniqueId"
                             value={initialData.UniqueId}
-                            // disabled={disabled}
                             validators={['required']}
                             errorMessages={['This field is required']}
                             size="small"
@@ -150,28 +153,27 @@ const CustomerAssestForm = (props: Props) => {
                     </Grid>
 
                     <Grid item xs={4}>
-                        {/* <TextValidator
-                            label="AssetType "
-                            onChange={handleChange}
-                            name="AssetType"
-                            value={initialData.AssetType}
-                            // disabled={disabled}
-                            validators={['required']}
-                            errorMessages={['This field is required']}
-                            size="small"
-                            variant="filled"
-                            fullWidth
-                        /> */}
                         <TextValidator
+                            // select
+                            // name="AssetType"
+                            // value={initialData.AssetType}
+                            // onChange={handleChange}
+                            // validators={['required']}
+                            // errorMessages={['This field is required']}
+                            // fullWidth
+                            // size="small"
+                            // fullWidth
                             select
+                            label="AssetType"
+                            onChange={handleChange}
                             name="AssetType"
                             value={initialData.AssetType}
-                            onChange={handleChange}
                             validators={['required']}
                             errorMessages={['This field is required']}
-                            fullWidth
                             size="small"
-
+                            fullWidth
+                            variant="filled"
+                        // style={{ marginTop: '9px' }}
                         >
                             <MenuItem value="Vehicle" >Vehicle</MenuItem>
                             <MenuItem value="Tank">Tank</MenuItem>
@@ -180,34 +182,76 @@ const CustomerAssestForm = (props: Props) => {
                         </TextValidator>
                     </Grid>
                     <Grid item xs={4}>
-                        {/* <TextValidator
-                            label="Status "
+                        <TextValidator
+                            label="Asset Description"
                             onChange={handleChange}
-                            name="Status"
-                            value={initialData.Status}
-                            // disabled={disabled}
-                            validators={['required']}
+                            name="AssetDescription"
+                            value={initialData.AssetDescription}
                             errorMessages={['This field is required']}
                             size="small"
                             variant="filled"
                             fullWidth
-                        /> */}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
                         <TextValidator
+                            label="Capacity"
+                            onChange={handleChange}
+                            name="Capacity"
+                            value={initialData.Capacity}
+                            errorMessages={['This field is required']}
+                            size="small"
+                            variant="filled"
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Autocomplete
+                            multiple
+                            options={productList}
+                            getOptionLabel={(option) => option.Name}
+                            value={productList.filter((product) =>
+                                initialData.ProductFIds && initialData.ProductFIds.includes(product.Id)
+                            )}
+                            onChange={(event, newValue) => handleProductAutocompleteChange(newValue)}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Products"
+                                    variant="filled"
+                                    size="small"
+                                />
+                            )}
+                        />
+                    </Grid>
+
+                    <Grid item xs={4}>
+
+                        <TextValidator
+                            // select
+                            // name="Status"
+                            // value={initialData.Status}
+                            // onChange={handleChange}
+                            // validators={['required']}
+                            // errorMessages={['This field is required']}
+                            // fullWidth
+                            // size="small"
                             select
+                            label="Status"
+                            onChange={handleChange}
                             name="Status"
                             value={initialData.Status}
-                            onChange={handleChange}
                             validators={['required']}
                             errorMessages={['This field is required']}
-                            fullWidth
                             size="small"
-
+                            fullWidth
+                            variant="filled"
                         >
                             <MenuItem value="Active" >Active</MenuItem>
                             <MenuItem value="Inactive">Inactive</MenuItem>
                         </TextValidator>
                     </Grid>
-                    <Grid item xs={4}>
+                    {/* <Grid item xs={4}>
                         <TextValidator
                             label="AssetCategory "
                             onChange={handleChange}
@@ -250,7 +294,7 @@ const CustomerAssestForm = (props: Props) => {
                             variant="filled"
                             fullWidth
                         />
-                    </Grid>
+                    </Grid> */}
 
 
                 </Grid>
