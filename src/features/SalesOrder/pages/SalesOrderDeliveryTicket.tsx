@@ -154,7 +154,7 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
                                 <strong>Truck#:</strong> {delivertTicketList?.DTTruck || 'N/A'}
                             </Typography>
                             <Typography variant="body1">
-                                <strong>Driver#:</strong> {delivertTicketList?.DTDriver || 'N/A'}
+                                <strong>Driver:</strong> {delivertTicketList?.DTDriver || 'N/A'}
                             </Typography>
                         </Grid>
                     </Grid>

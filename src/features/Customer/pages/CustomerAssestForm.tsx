@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Grid, TextField } from '@mui/material';
+import { Autocomplete, Box, Grid, MenuItem, TextField } from '@mui/material';
 import Button from 'components/Button/Button';
 import { useAppDispatch, useAppSelector } from 'hooks/useStore';
 import React, { useEffect, useState } from 'react'
@@ -150,7 +150,7 @@ const CustomerAssestForm = (props: Props) => {
                     </Grid>
 
                     <Grid item xs={4}>
-                        <TextValidator
+                        {/* <TextValidator
                             label="AssetType "
                             onChange={handleChange}
                             name="AssetType"
@@ -161,10 +161,26 @@ const CustomerAssestForm = (props: Props) => {
                             size="small"
                             variant="filled"
                             fullWidth
-                        />
+                        /> */}
+                        <TextValidator
+                            select
+                            name="AssetType"
+                            value={initialData.AssetType}
+                            onChange={handleChange}
+                            validators={['required']}
+                            errorMessages={['This field is required']}
+                            fullWidth
+                            size="small"
+
+                        >
+                            <MenuItem value="Vehicle" >Vehicle</MenuItem>
+                            <MenuItem value="Tank">Tank</MenuItem>
+                            <MenuItem value="Generator" >Generator</MenuItem>
+                            <MenuItem value="Equipment">Equipment</MenuItem>
+                        </TextValidator>
                     </Grid>
                     <Grid item xs={4}>
-                        <TextValidator
+                        {/* <TextValidator
                             label="Status "
                             onChange={handleChange}
                             name="Status"
@@ -175,7 +191,21 @@ const CustomerAssestForm = (props: Props) => {
                             size="small"
                             variant="filled"
                             fullWidth
-                        />
+                        /> */}
+                        <TextValidator
+                            select
+                            name="Status"
+                            value={initialData.Status}
+                            onChange={handleChange}
+                            validators={['required']}
+                            errorMessages={['This field is required']}
+                            fullWidth
+                            size="small"
+
+                        >
+                            <MenuItem value="Active" >Active</MenuItem>
+                            <MenuItem value="Inactive">Inactive</MenuItem>
+                        </TextValidator>
                     </Grid>
                     <Grid item xs={4}>
                         <TextValidator
