@@ -500,7 +500,7 @@ const SalesOrderList = (props: Props) => {
                                             onClick={() => handleRequestSort('ExpectedDateTime')}
                                             style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
                                         >
-                                            Expected Date Time
+                                            Arrived Date Time
                                             {orderBy === 'ExpectedDateTime' ? (
                                                 order === 'asc' ? (
                                                     <ExpandLessIcon fontSize="small" />
@@ -613,8 +613,8 @@ const SalesOrderList = (props: Props) => {
                                         <TableCell>{index + 1}</TableCell>
                                         {visibleColumns.CustomersFId && <TableCell>{findCustomerName(item.CustomersFId)}</TableCell>}
                                         {visibleColumns.DocNumber && <TableCell>SO-{item.DocNumber}</TableCell>}
-                                        {visibleColumns.OrderDateTime && <TableCell>{moment(item.OrderDateTime).format('DD/MM/YYYY hh:mm A')}</TableCell>}
-                                        {visibleColumns.ExpectedDateTime && <TableCell>{moment(item.ExpectedDateTime).format('DD/MM/YYYY hh:mm A')}</TableCell>}
+                                        {visibleColumns.OrderDateTime && <TableCell>{moment.utc(item.OrderDateTime).format('DD/MM/YYYY hh:mm A')}</TableCell>}
+                                        {visibleColumns.ExpectedDateTime && <TableCell>{moment.utc(item.ExpectedDateTime).format('DD/MM/YYYY hh:mm A')}</TableCell>}
                                         {visibleColumns.SOStatus && (
                                             <TableCell>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -737,7 +737,7 @@ const SalesOrderList = (props: Props) => {
             <GeneralModal
                 open={isDeliveryTicketModalOpen}
                 handleClose={() => toggleDeliveryTicketModal(null)}
-                title="Sales Order Delivery Ticket"
+                title="Delivery Ticket"
                 width="70%"
             >
                 <SalesOrderDeliveryTicket salesOrderId={selectedSalesOrderId} />

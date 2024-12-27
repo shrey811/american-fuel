@@ -129,6 +129,7 @@ const SalesOrderForm = (props: Props) => {
         SOStatus: 'Opened',
         DeliveryStatus: false,
         InvoiceStatus: false,
+
     });
     const [openRows, setOpenRows] = useState<number[]>([]); // State to track open rows
     const [tabIndex, setTabIndex] = useState(0);
@@ -869,6 +870,16 @@ const SalesOrderForm = (props: Props) => {
             toast.error("Something went wrong");
         }
     };
+    useEffect(() => {
+        // Example: Updating Products dynamically with default 'Gross' value
+        if (initialData.Products) {
+            const updatedProducts = initialData.Products.map(product => ({
+                ...product,
+                Basis: product.Basis || 'Gross', // Default to 'Gross' if undefined
+            }));
+            setInitialData(prevData => ({ ...prevData, Products: updatedProducts }));
+        }
+    }, [initialData.Products]);
 
     const handleEditCustomer = () => {
         if (props.editData) {
@@ -1116,7 +1127,7 @@ const SalesOrderForm = (props: Props) => {
                             />
 
 
-                            <TextValidator
+                            {/* <TextValidator
                                 fullWidth
                                 label="Driver"
                                 onChange={handleChange}
@@ -1127,7 +1138,7 @@ const SalesOrderForm = (props: Props) => {
                                 size="small"
                                 variant="filled"
                                 style={{ marginTop: '9px' }}
-                            />
+                            /> */}
                         </Grid>
                     </Grid>
 
@@ -1689,66 +1700,42 @@ const SalesOrderForm = (props: Props) => {
                                                     }}
                                                 />
                                             </TableCell>
-                                            <TableCell sx={tableFormStyles}>
 
-                                                {/* <Autocomplete
-                                                    fullWidth
-                                                    options={productList}
-                                                    getOptionLabel={(option) => option.Name}
+
+                                            <TableCell sx={{ width: '300px', padding: '6px' }} >
+                                                <Autocomplete
+
+                                                    options={
+                                                        customerAssestList.find((item) => item.Id === customersAsset.CustomersAssetFId)?.ProductFIds?.map(
+                                                            (productId) => productList.find((product) => product.Id === productId)
+                                                        )?.filter(Boolean) ?? [] // Ensure options is always an array
+                                                    }
+                                                    getOptionLabel={(option) => option?.Name || ''}
                                                     value={
-                                                        productList.find(
-                                                            (item) => item.Id === initialData.DeliveryInfos[index].ProductsFId
-                                                        ) || null
+                                                        productList.find((item) => item.Id === customersAsset.ProductsFId) || null
                                                     }
                                                     onChange={(event, value) => {
                                                         handleAssestChange(index, {
                                                             target: { name: "ProductsFId", value: value ? value.Id : 0 },
                                                         });
                                                     }}
-
-
                                                     renderInput={(params) => (
                                                         <TextField
                                                             {...params}
                                                             size="small"
                                                             name="ProductsFId"
                                                             fullWidth
+
                                                         />
                                                     )}
-                                                /> */}
-                                                <TableCell sx={tableFormStyles}>
-                                                    <Autocomplete
-                                                        fullWidth
-                                                        options={
-                                                            customerAssestList.find((item) => item.Id === customersAsset.CustomersAssetFId)?.ProductFIds?.map(
-                                                                (productId) => productList.find((product) => product.Id === productId)
-                                                            )?.filter(Boolean) ?? [] // Ensure options is always an array
-                                                        }
-                                                        getOptionLabel={(option) => option?.Name || ''}
-                                                        value={
-                                                            productList.find((item) => item.Id === customersAsset.ProductsFId) || null
-                                                        }
-                                                        onChange={(event, value) => {
-                                                            handleAssestChange(index, {
-                                                                target: { name: "ProductsFId", value: value ? value.Id : 0 },
-                                                            });
-                                                        }}
-                                                        renderInput={(params) => (
-                                                            <TextField
-                                                                {...params}
-                                                                size="small"
-                                                                name="ProductsFId"
-                                                                fullWidth
-                                                            />
-                                                        )}
-                                                    />
-
-
-                                                </TableCell>
-
+                                                />
 
 
                                             </TableCell>
+
+
+
+
                                             <TableCell sx={tableFormStyles}>
                                                 <TextValidator
                                                     name="DeliveryQuantity"
@@ -1757,6 +1744,7 @@ const SalesOrderForm = (props: Props) => {
                                                     type="number"
                                                     size="small"
                                                     fullWidth
+
                                                 />
                                             </TableCell>
                                             <TableCell sx={tableFormStyles}>
