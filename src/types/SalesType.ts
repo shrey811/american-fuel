@@ -53,5 +53,14 @@ export interface SalesOrderDataType {
             OtherChargesFId: number
         }
     ]
+    DeliveryInfos: [
+        {
+            CustomersAssetFId: number,
+            ProductsFId: number,
+            DeliveryQuantity: number,
+            Rate: number,
+            Status: string,
+        }
+    ]
 
 }

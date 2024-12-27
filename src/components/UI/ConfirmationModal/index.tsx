@@ -42,7 +42,7 @@ function ConfirmationModal(props: IProps) {
     >
       <Fade in={open}>
         <Box sx={style}>
-        <Typography id="transition-modal-title" variant="h6" component="h2" sx={{ fontSize: "1.5rem", color: '#1071e5' }}>
+          <Typography id="transition-modal-title" variant="h6" component="h2" sx={{ fontSize: "1.5rem", color: '#f44336' }}>
             Confirmation
           </Typography>
           <Typography id="transition-modal-title" variant="h6" component="h2" sx={{ fontSize: '.875rem' }}>

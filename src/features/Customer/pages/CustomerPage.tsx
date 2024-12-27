@@ -13,6 +13,8 @@ import CustomerViewDetails from './CustomerViewDetails';
 import CustomerBillAddressList from './CustomerBillAddressList';
 import CustomerShipAddressList from './CustomerShipAddressList';
 import CustomerPriceList from './CustomerPriceList';
+import CustomerAssestList from './CustomerAssestList';
+import { listCustomerAssest } from 'store/slices/customerassestsSlice';
 
 interface Props {
   editData?: any;
@@ -122,6 +124,10 @@ const CustomerPage = (props: Props) => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [openAssetModal, setOpenAssetModal] = useState(false); // State for CustomerAssetList modal
+
+  const handleOpenAssetModal = () => setOpenAssetModal(true);
+  const handleCloseAssetModal = () => setOpenAssetModal(false);
 
   const handleUpdateIntuitData = async () => {
     try {
@@ -137,6 +143,18 @@ const CustomerPage = (props: Props) => {
       toast.error("An error occurred while updating Intuit data.");
     }
   };
+  // useEffect(() => {
+  //   const customerAssest_id = fetchCustomer.Id;
+  //   dispatch(listCustomerAssest(customerAssest_id));
+  // }, []);
+  const [isLoading, setIsLoading] = useState(true); // Loading state
+
+  // Set isLoading to false after the data is loaded
+  useEffect(() => {
+    if (fetchCustomer) {
+      setIsLoading(false);
+    }
+  }, [fetchCustomer]);
 
   return (
     <Grid container spacing={2}>
@@ -157,8 +175,40 @@ const CustomerPage = (props: Props) => {
                 </>
               ) : showDetails ? (
                 <>
+                  <Box sx={{ float: 'right', py: 2, position: 'absolute', right: '41rem', top: '0', mt: '0' }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleOpenAssetModal} // Open the modal
+                    >
+                      Customer Asset List
+                    </Button>
 
-                  <Box sx={{ float: 'right', py: 2, position: 'absolute', right: '30rem', top: '0', mt: '0' }}>
+                    <Modal
+                      open={openAssetModal}
+                      onClose={handleCloseAssetModal}
+                      aria-labelledby="customer-asset-list-modal"
+                      aria-describedby="view-customer-asset-list"
+                    >
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          width: "80%",
+                          bgcolor: "background.paper",
+                          boxShadow: 24,
+                          p: 4,
+                          borderRadius: 2,
+                        }}
+                      >
+                        {/* Pass the customer ID to the component */}
+                        <CustomerAssestList fetchCustomer={fetchCustomer} />
+                      </Box>
+                    </Modal>
+                  </Box>
+                  <Box sx={{ float: 'right', py: 2, position: 'absolute', right: '31rem', top: '0', mt: '0' }}>
                     <Button
                       variant="contained"
                       color="primary"

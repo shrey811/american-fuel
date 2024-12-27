@@ -3,7 +3,7 @@ export const tableListItemStyles = {
 };
 
 export const textFieldStyles = {
-    mt: 2,
+    mt: 1,
 }
 
 export const invoiceGridStyles = {

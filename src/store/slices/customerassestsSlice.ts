@@ -13,8 +13,8 @@ const { getRequest, postRequest, putRequest, deleteRequest } = apiHandler;
 const sliceName = 'customerAssest';
 
 
-export const listCustomerAssest = createAsyncThunk(`${sliceName}/customerAssestList`, async (initialData: any) => {
-    const { customerAssest_id } = initialData;
+export const listCustomerAssest = createAsyncThunk(`${sliceName}/customerAssestList`, async (customerAssest_id: any) => {
+    // const { customerAssest_id } = initialData;
     const response = await getRequest(`${rootConstants.CUSTOMER_ASSETS_URL}/${customerAssest_id}`);
     return response
 });
@@ -29,9 +29,9 @@ export const updateCustomerAssest = createAsyncThunk(`${sliceName}/customerAsses
     const response = await putRequest(`${rootConstants.CUSTOMER_ASSETS_URL}/${customerAssest_id}`, customerAssest);
     return response;
 });
-export const deleteCustomerAssest = createAsyncThunk(`${sliceName}/customerAssestDelete`, async (initialData: any) => {
-    const { customerAssest_id, ...customerAssest } = initialData;
-    const response = await deleteRequest(`${rootConstants.CUSTOMER_ASSETS_URL}/${customerAssest_id}`, customerAssest);
+export const deleteCustomerAssest = createAsyncThunk(`${sliceName}/customerAssestDelete`, async (Id: any) => {
+    // const { customerAssest_id, ...customerAssest } = initialData;
+    const response = await deleteRequest(`${rootConstants.CUSTOMER_ASSETS_URL}/${Id}`);
     return response;
 });
 

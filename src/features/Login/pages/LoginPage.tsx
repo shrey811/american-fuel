@@ -194,7 +194,7 @@ const LoginPage = (props: Props) => {
       <Box
         sx={boxStyles}>
         <Typography component="p" variant="h5" sx={typographyStyles}>
-          Better Day Energy
+          American Petroleum
         </Typography>
         <Typography component="h1" variant="h5"
           sx={typographyBottomStyles}>

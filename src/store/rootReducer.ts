@@ -72,6 +72,8 @@ import reportReducers from './slices/reportSlice';
 import { ReportStateType } from 'types/ReportType';
 import customerPriceListReducers from './slices/customerPriceListSlice';
 import { CustomerPriceListStateType } from 'types/CustomerPriceListType';
+import deliveryTicketReducers from './slices/deliveryticektSlice';
+import { DeliveryStateType } from 'types/DeliveryTicketType';
 
 const appReducer = combineReducers({
   testReducers,
@@ -108,6 +110,7 @@ const appReducer = combineReducers({
   subTypeReducers,
   reportReducers,
   customerPriceListReducers,
+  deliveryTicketReducers,
 });
 
 export interface RootReducerType {
@@ -145,7 +148,7 @@ export interface RootReducerType {
   subTypeReducers: SubTypeIndex;
   reportReducers: ReportStateType;
   customerPriceListReducers: CustomerPriceListStateType;
-
+  deliveryTicketReducers: DeliveryStateType;
 }
 
 const rootReducer = (

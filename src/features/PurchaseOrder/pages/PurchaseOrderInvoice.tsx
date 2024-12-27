@@ -52,13 +52,13 @@ const PurchaseOrderInvoice = (props: Props) => {
       <div ref={invoiceRef}>
         <Box sx={{ padding: '1.5rem' }}>
           <Grid container spacing={3}>
-            <Grid item xs={4} sx={{padding:'1rem 1.5rem !important'}}>
-              <Typography variant="h3" sx={{fontWeight: 'bold', color: '#1976d1'}}>Better Day Energy</Typography>
+            <Grid item xs={4} sx={{ padding: '1rem 1.5rem !important' }}>
+              <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#1976d1' }}>American Petroleum</Typography>
             </Grid>
             <Grid item xs={4}>
               <Typography variant="h5">Purchase Order</Typography>
             </Grid>
-            <Grid item xs={4} sx={{paddingLeft: '0rem !important'}}>
+            <Grid item xs={4} sx={{ paddingLeft: '0rem !important' }}>
               {/* <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Purchase Order</Typography> */}
               <Typography variant="body1">
                 <span style={{ fontSize: '0.84rem' }}>
@@ -73,7 +73,7 @@ const PurchaseOrderInvoice = (props: Props) => {
               <Typography variant="body1">
                 <span style={{ fontSize: '0.84rem' }}>
                   <strong> Lift Date/Time: </strong>&nbsp;
-                </span> 
+                </span>
                 {/* {props.invoiceData.LiftDateTime} */}
                 {moment(props.invoiceData.LiftDateTime).utc().format('ddd, DD MMM YYYY hh:mm A')}
               </Typography>

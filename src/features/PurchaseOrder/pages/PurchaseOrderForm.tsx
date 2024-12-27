@@ -1387,7 +1387,7 @@ const PurchaseOrderForm = (props: Props) => {
                         <Box
                             sx={{
                                 margin: '0.5rem 0.4rem',
-                                color: '#1976d2',
+                                color: '#f44336',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'space-between', // Adjust spacing between items

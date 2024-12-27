@@ -9,7 +9,7 @@ export default function Button(props: ButtonPropType) {
     <MuiButton
       disabled={loading}
       {...args}
-      sx={{ fontWeight: 'bold', textTransform: 'capitalize' }}
+      sx={{ fontWeight: 'bold', textTransform: 'capitalize', height: '30px', fontSize: '9px', }}
     >
       {children}
       {loading && (

@@ -33,6 +33,7 @@ import moment from 'moment';
 import { getBillAddressCustomer } from 'store/slices/billaddressSlice';
 import { getBillToAddresses } from 'store/slices/addressesSlice';
 import { getShipToAddresses } from 'store/slices/shipToAddressesSlice';
+import SalesOrderDeliveryTicket from './SalesOrderDeliveryTicket';
 
 interface Props {
     setEditData?: any
@@ -105,7 +106,14 @@ const SalesOrderList = (props: Props) => {
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
+    const [isDeliveryTicketModalOpen, setDeliveryTicketModalOpen] = useState(false);
+    const [selectedSalesOrderId, setSelectedSalesOrderId] = useState<number | null>(null);
 
+    // Function to toggle the Delivery Ticket Modal
+    const toggleDeliveryTicketModal = (salesOrderId: number | null) => {
+        setSelectedSalesOrderId(salesOrderId);
+        setDeliveryTicketModalOpen(!isDeliveryTicketModalOpen);
+    };
 
 
     const handleChangeRowsPerPage = (event: any) => {
@@ -684,11 +692,21 @@ const SalesOrderList = (props: Props) => {
                                                 </Tooltip>
                                             </ListItemIcon>
                                             {/* {item.SOStatus === 'Closed' && */}
-                                            <ListItemIcon sx={{ minWidth: '24px' }}>
+                                            {/* <ListItemIcon sx={{ minWidth: '24px' }}>
                                                 <Tooltip title="Invoice" placement="top" arrow onClick={() => generateInvoicePdf(item)}>
                                                     <ReceiptIcon sx={{ cursor: 'pointer', marginRight: 1 }} />
                                                 </Tooltip>
+                                            </ListItemIcon> */}
+
+                                            <ListItemIcon sx={{ minWidth: '24px' }}>
+                                                <Tooltip title="Delivery Ticket" placement="top" arrow>
+                                                    <ReceiptIcon
+                                                        sx={{ cursor: 'pointer', marginRight: 1 }}
+                                                        onClick={() => toggleDeliveryTicketModal(item.Id)}
+                                                    />
+                                                </Tooltip>
                                             </ListItemIcon>
+
                                             {/* } */}
                                         </TableCell>
 
@@ -715,6 +733,16 @@ const SalesOrderList = (props: Props) => {
             <GeneralModal open={reviewModalOpen} handleClose={() => setReviewModalOpen(false)} title="Review Sales Invoice" width="70%">
                 <SalesOrderInvoice invoiceData={invoiceData} />
             </GeneralModal>
+
+            <GeneralModal
+                open={isDeliveryTicketModalOpen}
+                handleClose={() => toggleDeliveryTicketModal(null)}
+                title="Sales Order Delivery Ticket"
+                width="70%"
+            >
+                <SalesOrderDeliveryTicket salesOrderId={selectedSalesOrderId} />
+            </GeneralModal>
+
         </>
     )
 }

@@ -21,7 +21,7 @@ export default function FallbackLoader({ h, styles }: FallbackProps) {
         ...styles
       }}
     >
-      <BeatLoader color="rgb(25, 118, 210)"/>
+      <BeatLoader color="rgb(210, 25, 25)" />
     </div>
   );
 }

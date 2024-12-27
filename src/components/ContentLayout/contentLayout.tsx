@@ -128,7 +128,7 @@ const ContentLayout: React.FC<Props> = ({ children }) => {
                     top: 0,
                     left: 0,
                     zIndex: 1201,
-                    backgroundColor: 'rgb(25, 118, 210)',
+                    backgroundColor: '#f44336',
                     paddingRight: '0 !important',
                 }}>
                 <Toolbar sx={{ pr: '24px' }}>
@@ -150,7 +150,7 @@ const ContentLayout: React.FC<Props> = ({ children }) => {
                         sx={{ marginBottom: '10px' }}
                     >
                         {/* Logo */}
-                        <Box
+                        {/* <Box
                             component="img"
                             src={logo}
                             alt="Better Day Energy Logo"
@@ -159,7 +159,7 @@ const ContentLayout: React.FC<Props> = ({ children }) => {
                                 marginRight: 2,
                                 marginBottom: 2,// Spacing between logo and text
                             }}
-                        />
+                        /> */}
 
                         {/* Title */}
                         <Typography
@@ -169,7 +169,7 @@ const ContentLayout: React.FC<Props> = ({ children }) => {
                             noWrap
                             sx={{ flexGrow: 1, marginBottom: 2, }}
                         >
-                            Better Day Energy
+                            American Petroleum
                         </Typography>
                     </Box>
 
@@ -327,12 +327,12 @@ const ContentLayout: React.FC<Props> = ({ children }) => {
                             top: '3.2rem', // Top margin
                             zIndex: 1300, // Ensure it's on top
                             borderRadius: '1px', // Rectangle shape (adjust if needed)
-                            backgroundColor: 'rgb(25, 118, 210)', // Background color of the button
+                            backgroundColor: 'rgb(210, 25, 25)', // Background color of the button
                             padding: '10px 20px', // Adjust padding to create a rectangle
                             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Floating effect
                             transition: 'right 0.6s ease', // Smooth transition for the right position
                             '&:hover': {
-                                backgroundColor: 'rgb(21, 98, 163)', // Darker shade on hover
+                                backgroundColor: 'rgb(163, 21, 21)', // Darker shade on hover
                             },
                         }}
                     >

@@ -14,7 +14,9 @@ export const boxStyles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1)', // Softer shadow
+    borderRadius: '16px',  // Rounded corners
+    backgroundColor: 'white', // White background for the form
 }
 export const typographyStyles = {
     mt: 2,

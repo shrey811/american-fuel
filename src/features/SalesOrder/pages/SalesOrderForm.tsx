@@ -28,6 +28,7 @@ import { idID } from '@mui/material/locale';
 import { AdditionalChargesDataType } from 'types/AddiotnalChargesType';
 import { getBillAddressCustomer } from 'store/slices/billaddressSlice';
 import { getShipAddressCustomer } from 'store/slices/shipaddressSlice';
+import { listCustomerAssest } from 'store/slices/customerassestsSlice';
 
 interface Props {
     editData?: any;
@@ -54,7 +55,9 @@ const salesOrderInitialValues = {
     DeliveryStatus: false,
     CustomersFId: 0,
     TotalAmt: '',
-
+    Truck: '',
+    Driver: '',
+    DeliveredBy: '',
     DocNumber: '',
     SOStatus: '',
     Products: [
@@ -93,7 +96,17 @@ const salesOrderInitialValues = {
             Amount: 0,
             OtherChargesFId: 0
         }
+    ],
+    DeliveryInfos: [
+        {
+            CustomersAssetFId: 0,
+            ProductsFId: 0,
+            DeliveryQuantity: 0,
+            Rate: 0,
+            Status: ''
+        }
     ]
+
 }
 
 interface AddressType {
@@ -128,6 +141,7 @@ const SalesOrderForm = (props: Props) => {
     const [terminalSelected, setTerminalSelected] = useState<boolean>(false);
     const [salesDetails, setSalesDetails] = useState<{ [key: number]: SalesDetail[] }>({});
     const [additionalCharges, setAdditionalCharges] = useState([{ AdditionalChargeFId: 0, Price: 0, BilledQuantity: 0 }]);
+    const [assestsCharges, setAssestCharges] = useState([{ CustomersAssetFId: 0, ProductsFId: 0, DeliveryQuantity: 0, Rate: 0, Status: true }]);
     const [formVisible, setFormVisible] = useState(true);
     const [invoiceAddressDisplay, setInvoiceAddressDisplay] = useState<string>('');
     const [deliveryAddressDisplay, setDeliveryAddressDisplay] = useState<AddressType | null>(null);
@@ -212,7 +226,13 @@ const SalesOrderForm = (props: Props) => {
         ],
         shallowEqual
     );
-
+    const [customerAssestList, listCustomerAssestLoading] = useAppSelector(
+        (state) => [
+            state.customerAssestReducers.customerAssestList,
+            state.customerAssestReducers.listCustomerAssestLoading,
+        ],
+        shallowEqual
+    );
 
     const [productList, listProductLoading] = useAppSelector(
         (state) => [
@@ -222,6 +242,16 @@ const SalesOrderForm = (props: Props) => {
         shallowEqual
     );
 
+    // const handleEditProduct = () => {
+    //     if (!Array.isArray(initialData.DeliveryInfos)) return null;
+
+    //     const productId = initialData.DeliveryInfos.find(info => info.ProductsFId)?.ProductsFId;
+    //     if (props.editData) {
+    //         return productList.find(item => item.Id === productId) || null;
+    //     } else {
+    //         return productId ? productList.find(item => item.Id === productId) || null : null;
+    //     }
+    // }
     const [salesOrderList, salesOrderListLoading] = useAppSelector(
         (state) => [
             state.salesOrderReducers.salesOrderList,
@@ -402,7 +432,8 @@ const SalesOrderForm = (props: Props) => {
         const customerIdString = Number(customerId)
         const billingAddressesResponse = await dispatch(getBillAddressCustomer({ customer_bill_address_id: customerIdString }));
         const shippingAddressesResponse = await dispatch(getShipAddressCustomer({ customer_ship_address_id: customerId }));
-
+        const customerAssest_id = customerId;
+        dispatch(listCustomerAssest(customerAssest_id));
         const billingAddresses = billingAddressesResponse.payload.message.data || [];
         const shippingAddresses = shippingAddressesResponse.payload.message.data || [];
 
@@ -591,6 +622,10 @@ const SalesOrderForm = (props: Props) => {
 
     };
 
+
+
+
+
     const addProduct = () => {
         setInitialData({
             ...initialData,
@@ -632,6 +667,24 @@ const SalesOrderForm = (props: Props) => {
             setAdditionalCharges([...additionalCharges, { AdditionalChargeFId: 0, Price: 0, BilledQuantity: 0 }]);
         }
     };
+    const handleAddCustomerAssest = () => {
+
+        setInitialData({
+            ...initialData,
+            DeliveryInfos: [
+                ...initialData.DeliveryInfos,
+                {
+                    CustomersAssetFId: 0,
+                    ProductsFId: 0,
+                    DeliveryQuantity: 0,
+                    Rate: 0,
+                    Status: ''
+                }
+            ]
+        });
+
+
+    };
 
     const handleChargeChange = (index: number, field: string, value: any) => {
         const updatedCharges = [...additionalCharges];
@@ -645,6 +698,21 @@ const SalesOrderForm = (props: Props) => {
         console.log('Updated Charges:', updatedCharges);
         setAdditionalCharges(updatedCharges);
     };
+
+
+    const handleAssestChange = (index: number, event: any) => {
+        const { name, value } = event.target;
+        const updatedAssets = initialData.DeliveryInfos.map((customersAsset, i) =>
+            i === index ? { ...customersAsset, [name]: value } : customersAsset
+        );
+
+        setInitialData(prevData => ({ ...prevData, DeliveryInfos: updatedAssets }));
+
+
+    };
+
+
+
     const calculateAmount = (index: any) => {
         const { BilledQuantity, Price } = additionalCharges[index] || 0;
         return BilledQuantity && Price ? BilledQuantity * Price : '';
@@ -659,6 +727,12 @@ const SalesOrderForm = (props: Props) => {
     const removeAdditionalCharge = (index: number) => {
         const updatedCharges = additionalCharges.filter((_, i) => i !== index);
         setAdditionalCharges(updatedCharges);
+    };
+    const removecustomerAssest = (index: number) => {
+        setInitialData({
+            ...initialData,
+            DeliveryInfos: initialData.DeliveryInfos.filter((_, i) => i !== index),
+        });
     };
 
     const handleSubmit = async () => {
@@ -953,22 +1027,23 @@ const SalesOrderForm = (props: Props) => {
                                     sx={textFieldStyles}
                                 />
                             )}
+                            <TextValidator
+                                fullWidth
+                                label="Delivered By"
+                                onChange={handleChange}
+                                name="DeliveredBy"
+                                value={initialData.DeliveredBy}
+
+                                required
+                                // validators={['required']}
+                                // errorMessages={['This field is required']}
+                                size="small"
+                                variant="filled"
+                                style={{ marginTop: '9px' }}
+                            />
                         </Grid>
 
                         <Grid item xs={12} sm={6}>
-                            <TextValidator
-                                fullWidth
-                                label="Expected-Date-Time"
-                                name="ExpectedDateTime"
-                                value={initialData.ExpectedDateTime}
-                                type="datetime-local"
-                                size="small"
-                                validators={['required']}
-                                errorMessages={['This field is required']}
-                                onChange={handleChange}
-                                variant="filled"
-                            />
-
                             <TextValidator
                                 fullWidth
                                 label="Order-Date-Time"
@@ -980,13 +1055,13 @@ const SalesOrderForm = (props: Props) => {
                                 errorMessages={['This field is required']}
                                 onChange={handleChange}
                                 variant="filled"
-                                sx={textFieldStyles}
+                            // sx={textFieldStyles}
                             />
                             <TextValidator
                                 fullWidth
-                                label="Invoice-Date-Time"
-                                name="InvoiceDateTime"
-                                value={initialData.InvoiceDateTime}
+                                label="Arrived-Date-Time"
+                                name="ExpectedDateTime"
+                                value={initialData.ExpectedDateTime}
                                 type="datetime-local"
                                 size="small"
                                 validators={['required']}
@@ -995,13 +1070,57 @@ const SalesOrderForm = (props: Props) => {
                                 variant="filled"
                                 sx={textFieldStyles}
                             />
+                            <TextValidator
+                                fullWidth
+                                label="Completed-Date-Time"
+                                name="InvoiceDateTime"
+                                value={initialData.InvoiceDateTime}
+                                type="datetime-local"
+                                size="small"
+                                validators={['required']}
+                                errorMessages={['This field is required']}
+                                onChange={handleChange}
+                                required
+                                variant="filled"
+                                sx={textFieldStyles}
+                            />
+                            <TextValidator
+                                fullWidth
+                                label="Truck"
+                                onChange={handleChange}
+                                name="Truck"
+                                required
+                                value={initialData.Truck}
+                                // validators={['required']}
+                                // errorMessages={['This field is required']}
+                                size="small"
+                                variant="filled"
+                                style={{ marginTop: '9px' }}
+                            />
+
+
+                            <TextValidator
+                                fullWidth
+                                label="Driver"
+                                onChange={handleChange}
+                                name="Driver"
+                                value={initialData.Driver}
+                                // validators={['required']}
+                                // errorMessages={['This field is required']}
+                                size="small"
+                                variant="filled"
+                                style={{ marginTop: '9px' }}
+                            />
                         </Grid>
                     </Grid>
+
 
                 </Box >
                 < Divider sx={{ my: 2 }} />
 
                 <Box>
+
+                    {/* product  table */}
                     <TableContainer component={Paper}>
                         <Table size="small" aria-label="a dense table" sx={{ minWidth: 650 }}>
                             <TableHead>
@@ -1242,7 +1361,7 @@ const SalesOrderForm = (props: Props) => {
                         <Box
                             sx={{
                                 margin: '0.5rem 0.4rem',
-                                color: '#1976d2',
+                                color: '#f44336',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'space-between', // Adjust spacing between items
@@ -1309,6 +1428,8 @@ const SalesOrderForm = (props: Props) => {
                         </Box>
                     </TableContainer>
 
+                    {/* other charges table */}
+
                     <TableContainer component={Paper} sx={{ marginTop: '2rem' }}>
                         <Table size="small" aria-label="a dense table" sx={{ minWidth: 650 }}>
                             <TableHead>
@@ -1346,7 +1467,7 @@ const SalesOrderForm = (props: Props) => {
                                                         // label="Additional Charge Name"
                                                         // variant="filled"
                                                         // size="small"
-                                                        sx={{ width: "190px" }}
+                                                        // sx={{ width: "190px" }}
                                                         fullWidth
                                                     />
                                                 )}
@@ -1375,7 +1496,7 @@ const SalesOrderForm = (props: Props) => {
                                                 fullWidth
                                                 multiline
                                                 rows={1}
-                                                sx={{ width: '133px' }}
+
                                             />
                                         </TableCell>
                                         <TableCell sx={tableFormStyles}>
@@ -1409,7 +1530,7 @@ const SalesOrderForm = (props: Props) => {
                                                 // errorMessages={['This field is required']}
                                                 fullWidth
                                                 size="small"
-                                                sx={{ width: '85px' }}
+                                            // sx={{ width: '85px' }}
                                             >
                                                 <MenuItem value="Net" >Net</MenuItem>
                                                 <MenuItem value="Gross">Gross</MenuItem>
@@ -1469,7 +1590,7 @@ const SalesOrderForm = (props: Props) => {
                         <Box
                             sx={{
                                 margin: '0.5rem 0.4rem',
-                                color: '#1976d2',
+                                color: '#f44336',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'space-between', // Adjust spacing between items
@@ -1485,6 +1606,148 @@ const SalesOrderForm = (props: Props) => {
                             </div>
                         </Box>
                     </TableContainer>
+
+                    {/* Assest Table */}
+                    <TableContainer component={Paper} sx={{ marginTop: '2rem' }}>
+                        <Table size="small" aria-label="a dense table" sx={{ minWidth: 650 }}>
+                            <TableHead>
+                                <TableRow sx={{ background: '#EFEFEF' }}>
+                                    <TableCell>Asset Name</TableCell>
+
+
+                                    <TableCell>Product</TableCell>
+                                    <TableCell>DeliveryQuantity</TableCell>
+                                    <TableCell>   Rate</TableCell>
+                                    <TableCell>Status</TableCell>
+
+                                    <TableCell>Action</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {initialData.DeliveryInfos.map((customersAsset, index) => (
+                                    <TableRow>
+                                        <TableCell sx={tableFormStyles}>
+                                            <Autocomplete
+                                                fullWidth
+                                                options={customerAssestList}
+                                                getOptionLabel={(option) => option.Name}
+                                                value={
+                                                    customerAssestList.find(
+                                                        (item) => item.Id === initialData.DeliveryInfos[index].CustomersAssetFId
+                                                    ) || null
+                                                }
+
+                                                onChange={(event, value) => {
+                                                    handleAssestChange(index, {
+                                                        target: { name: "CustomersAssetFId", value: value ? value.Id : 0 },
+                                                    });
+                                                }}
+                                                renderInput={(params) => (
+                                                    <TextField
+                                                        {...params}
+                                                        size="small"
+                                                        name="CustomersAssetFId"
+                                                        fullWidth
+                                                    />
+                                                )}
+                                            />
+                                        </TableCell>
+                                        <TableCell sx={tableFormStyles}>
+
+                                            <Autocomplete
+                                                fullWidth
+                                                options={productList}
+                                                getOptionLabel={(option) => option.Name}
+                                                value={
+                                                    productList.find(
+                                                        (item) => item.Id === initialData.DeliveryInfos[index].ProductsFId
+                                                    ) || null
+                                                }
+                                                onChange={(event, value) => {
+                                                    handleAssestChange(index, {
+                                                        target: { name: "ProductsFId", value: value ? value.Id : 0 },
+                                                    });
+                                                }}
+
+
+                                                renderInput={(params) => (
+                                                    <TextField
+                                                        {...params}
+                                                        size="small"
+                                                        name="ProductsFId"
+                                                        fullWidth
+                                                    />
+                                                )}
+                                            />
+                                        </TableCell>
+                                        <TableCell sx={tableFormStyles}>
+                                            <TextValidator
+                                                name="DeliveryQuantity"
+                                                value={customersAsset.DeliveryQuantity}
+                                                onChange={(e) => handleAssestChange(index, e)}
+                                                type="number"
+                                                size="small"
+                                                fullWidth
+                                            />
+                                        </TableCell>
+                                        <TableCell sx={tableFormStyles}>
+                                            <TextValidator
+                                                name="Rate"
+                                                value={customersAsset.Rate}
+                                                onChange={(e) => handleAssestChange(index, e)}
+                                                type="number"
+                                                size="small"
+                                                fullWidth
+                                            />
+                                        </TableCell>
+                                        <TableCell sx={tableFormStyles}>
+                                            <TextValidator
+                                                select
+                                                name="Status"
+                                                value={customersAsset.Status}
+                                                onChange={(e) => handleAssestChange(index, e)}
+                                                validators={['required']}
+                                                errorMessages={['This field is required']}
+                                                fullWidth
+                                                size="small"
+
+                                            >
+                                                <MenuItem value="Delivered" >Delivered</MenuItem>
+                                                <MenuItem value="Not Delivered">Not Delivered</MenuItem>
+                                            </TextValidator>
+                                        </TableCell>
+                                        <TableCell sx={{ padding: '0px' }}>
+                                            <Button variant="text" size="large" onClick={() => removecustomerAssest(index)}>
+                                                <Tooltip title="Remove Customer Assests" arrow placement="top">
+                                                    <RemoveCircle sx={{ color: 'darkred' }} />
+                                                </Tooltip>
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                        <Box
+                            sx={{
+                                margin: '0.5rem 0.4rem',
+                                color: '#f44336',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between', // Adjust spacing between items
+                                fontSize: '0.71rem',
+                                cursor: 'pointer',
+                                whiteSpace: 'nowrap',
+                            }}
+                        >
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <Typography onClick={handleAddCustomerAssest} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                                    <AddCircle /> &nbsp; Add Assests
+                                </Typography>
+                            </div>
+                        </Box>
+                    </TableContainer>
+
+
                 </Box >
                 <Grid container justifyContent="flex-end" mt={2}>
                     <Button

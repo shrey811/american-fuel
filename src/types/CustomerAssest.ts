@@ -12,8 +12,9 @@ export interface CustomerAssestDataType {
     Name: string,
     UniqueId: string,
     AssetType: string,
-    ErpId: string,
     Status: string,
     CustomersFId: number
-
+    AssetCategory: string,
+    AssetMake: string,
+    AssetModel: string,
 }

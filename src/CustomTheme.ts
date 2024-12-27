@@ -25,6 +25,11 @@ export const CustomTheme = createTheme({
     typography: {
         fontSize: 11, // Don't delete this
     },
+    palette: {
+        primary: {
+            main: '#f44336', // Set primary color to red
+        },
+    },
     customTable: {
         fontSize: {
             lg: '16px',

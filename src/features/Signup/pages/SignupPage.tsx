@@ -76,7 +76,7 @@ const SignupPage = (props: Props) => {
 
           sx={{ mt: 2, mb: 1, fontSize: '1.2rem' }}
         >
-          Better Day Energy
+          American Petroleum
         </Typography>
         <Typography component="h1" variant="h5"
 

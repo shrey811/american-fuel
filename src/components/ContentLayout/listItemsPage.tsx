@@ -70,12 +70,11 @@ export const mainListItems = (props: Props) => {
         to="/dashboard"
         sx={{
           ...(activeLink === '/dashboard' && {
-            marginLeft: sidebarToggle ? "0px" : "0px",
-            backgroundColor: '#c6e8ff',
-            borderRight: '3px solid #1976d1',
+            backgroundColor: '#ffc6c6', // Lighter red shade
+            borderRight: '3px solid #d32f2f', // Darker red for the border
             height: '48px',
             '&:hover': {
-              backgroundColor: '#7dcbff',
+              backgroundColor: '#ff7d7d', // Hover shade of red
             },
           }),
         }}
@@ -115,11 +114,11 @@ export const mainListItems = (props: Props) => {
         sx={{
           ...(activeLink === '/sales-order' && {
             // marginLeft: '20px',
-            backgroundColor: '#c6e8ff',
-            borderRight: '3px solid #1976d1',
+            backgroundColor: '#ffc6c6', // Lighter red shade
+            borderRight: '3px solid #d32f2f', // Darker red for the border
             height: '48px',
             '&:hover': {
-              backgroundColor: '#7dcbff',
+              backgroundColor: '#ff7d7d', // Hover shade of red
             },
           }),
         }}
@@ -145,11 +144,11 @@ export const mainListItems = (props: Props) => {
         sx={{
           ...(activeLink === '/drop-ship' && {
             // marginLeft: '20px',
-            backgroundColor: '#c6e8ff',
-            borderRight: '3px solid #1976d1',
+            backgroundColor: '#ffc6c6', // Lighter red shade
+            borderRight: '3px solid #d32f2f', // Darker red for the border
             height: '48px',
             '&:hover': {
-              backgroundColor: '#7dcbff',
+              backgroundColor: '#ff7d7d', // Hover shade of red
             },
           }),
         }}
@@ -175,11 +174,11 @@ export const mainListItems = (props: Props) => {
         sx={{
           ...(activeLink === '/purchase-order' && {
             // marginLeft: '20px',
-            backgroundColor: '#c6e8ff',
-            borderRight: '3px solid #1976d1',
+            backgroundColor: '#ffc6c6', // Lighter red shade
+            borderRight: '3px solid #d32f2f', // Darker red for the border
             height: '48px',
             '&:hover': {
-              backgroundColor: '#7dcbff',
+              backgroundColor: '#ff7d7d', // Hover shade of red
             },
           }),
         }}
@@ -215,11 +214,11 @@ export const mainListItems = (props: Props) => {
         sx={{
           ...(activeLink === '/customer' && {
             // marginLeft: '20px',
-            backgroundColor: '#c6e8ff',
-            borderRight: '3px solid #1976d1',
+            backgroundColor: '#ffc6c6', // Lighter red shade
+            borderRight: '3px solid #d32f2f', // Darker red for the border
             height: '48px',
             '&:hover': {
-              backgroundColor: '#7dcbff',
+              backgroundColor: '#ff7d7d', // Hover shade of red
             },
           }),
         }}
@@ -248,11 +247,11 @@ export const mainListItems = (props: Props) => {
         sx={{
           ...(activeLink === '/vendor' && {
             // marginLeft: '20px',
-            backgroundColor: '#c6e8ff',
-            borderRight: '3px solid #1976d1',
+            backgroundColor: '#ffc6c6', // Lighter red shade
+            borderRight: '3px solid #d32f2f', // Darker red for the border
             height: '48px',
             '&:hover': {
-              backgroundColor: '#7dcbff',
+              backgroundColor: '#ff7d7d', // Hover shade of red
             },
           }),
         }}
@@ -284,11 +283,11 @@ export const mainListItems = (props: Props) => {
           onClick={handleClick}
           sx={{
             ...(activeLink === '/report/PnL-BOL' && {
-              backgroundColor: '#c6e8ff',
-              borderRight: '3px solid #1976d1',
+              backgroundColor: '#ffc6c6', // Lighter red shade
+              borderRight: '3px solid #d32f2f', // Darker red for the border
               height: '48px',
               '&:hover': {
-                backgroundColor: '#7dcbff',
+                backgroundColor: '#ff7d7d', // Hover shade of red
               },
             }),
           }}
@@ -330,11 +329,11 @@ export const mainListItems = (props: Props) => {
             to="/report/PnL-BOL"
             onClick={handleClose1}
             sx={{
-              backgroundColor: '#c6e8ff',
-              borderRight: '3px solid #1976d1',
+              backgroundColor: '#ffc6c6', // Lighter red shade
+              borderRight: '3px solid #d32f2f', // Darker red for the border
               height: '48px',
               '&:hover': {
-                backgroundColor: '#7dcbff',
+                backgroundColor: '#ff7d7d', // Hover shade of red
               },
             }}
           >
@@ -353,11 +352,11 @@ export const mainListItems = (props: Props) => {
           sx={{
             width: '100%',
             ...(activeLink === '/system-data-management' && {
-              backgroundColor: '#5dade2',
-              borderRight: '3px solid #1976d1',
+              backgroundColor: '#ffc6c6', // Lighter red shade
+              borderRight: '3px solid #d32f2f', // Darker red for the border
               height: '48px',
               '&:hover': {
-                backgroundColor: '#3498db',
+                backgroundColor: '#ff7d7d', // Hover shade of red
               },
             }),
           }}
