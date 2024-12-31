@@ -128,14 +128,14 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
                             </Typography>
                             <Typography variant="body1">
                                 <strong>Arrived At:</strong>{' '}
-                                {moment(delivertTicketList?.ArrivedAt).format('DD MMM YYYY hh:mm A') || 'N/A'}
+                                {moment.utc(delivertTicketList?.ArrivedAt).format('DD MMM YYYY hh:mm A') || 'N/A'}
                             </Typography>
                             <Typography variant="body1">
                                 <strong>Completed:</strong>{' '}
-                                {moment(delivertTicketList?.Completed).format('DD MMM YYYY hh:mm A') || 'N/A'}
+                                {moment.utc(delivertTicketList?.Completed).format('DD MMM YYYY hh:mm A') || 'N/A'}
                             </Typography>
                             <Typography variant="body1">
-                                <strong>Delivered By:</strong> {delivertTicketList?.DTDriver || 'N/A'}
+                                <strong>Delivered By:</strong> {delivertTicketList?.DeliveredBy || 'N/A'}
                             </Typography>
                         </Grid>
                         <Grid item xs={6} sx={{ textAlign: 'right' }}>
@@ -165,7 +165,7 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
                                 <TableRow>
                                     <TableCell>Product Name</TableCell>
                                     {/* <TableCell>Asset Name</TableCell> */}
-                                    <TableCell>Delivered Quantity</TableCell>
+                                    <TableCell>Delivered Quantity (gal)</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -195,28 +195,33 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <Divider sx={{ marginBottom: '20px' }} />
-                    <Typography variant="h6">Breakdown By Asset:</Typography>
-                    <TableContainer component={Paper}>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Product Name</TableCell>
-                                    <TableCell>Asset Name</TableCell>
-                                    <TableCell>Delivered Quantity</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {delivertTicketList?.AssetsDetail?.map((asset: any, index: number) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{asset.ProductName || 'N/A'}</TableCell>
-                                        <TableCell>{asset.AssetName || 'N/A'}</TableCell>
-                                        <TableCell>{asset.DeliveredQuantity || 0}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                    <Divider sx={{ marginBottom: '50px' }} />
+                    {delivertTicketList?.AssetsDetail?.length > 0 && (
+                        <>
+                            <Typography variant="h6">Breakdown By Asset:</Typography>
+                            <TableContainer component={Paper}>
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Product Name</TableCell>
+                                            <TableCell>Asset Name</TableCell>
+                                            <TableCell>Delivered Quantity</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {delivertTicketList.AssetsDetail.map((asset: any, index: number) => (
+                                            <TableRow key={index}>
+                                                <TableCell>{asset.ProductName || 'N/A'}</TableCell>
+                                                <TableCell>{asset.AssetName || 'N/A'}</TableCell>
+                                                <TableCell>{asset.DeliveredQuantity || 0}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </>
+                    )}
+
                 </Box>
             </div>
             <Box sx={{ textAlign: 'right', marginTop: '20px' }}>

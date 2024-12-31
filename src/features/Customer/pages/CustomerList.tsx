@@ -142,13 +142,23 @@ const CustomerList = (props: Props) => {
     try {
       const action = await dispatch(deleteCustomer({ customer_id: editId }));
       const response = action.payload;
-      toast.success("Data deleted successfully");
+
       props.setEditData(null);
       resetDeleteData(); // Reset delete confirmation state
       console.log({ response });
       if (response.message.code === "SUCCESS") {
+        toast.success("Customer deleted successfully");
         await dispatch(listCustomer());
       }
+      else if (response.message.code === "ERROR") {
+        toast.error("Customer deleted unsuccessfully");
+        await dispatch(listCustomer());
+      }
+      else {
+        toast.error("Cannot delete customer; it is used in SaleOrders");
+        await dispatch(listCustomer());
+      }
+
     } catch (error) {
       toast.error("Error");
       // Handle error

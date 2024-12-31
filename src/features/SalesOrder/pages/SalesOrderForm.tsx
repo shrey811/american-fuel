@@ -729,7 +729,10 @@ const SalesOrderForm = (props: Props) => {
     //         DeliveryInfos: updatedAssets.map((asset, i) => (i === index ? { ...asset, filteredProducts } : asset)),
     //     }));
     // };
-
+    const validateFields = (customersAsset: any) => {
+        // Check if CustomersAssetFId is selected but ProductsFId is not
+        return !(customersAsset.CustomersAssetFId && !customersAsset.ProductsFId);
+    };
 
     const calculateAmount = (index: any) => {
         const { BilledQuantity, Price } = additionalCharges[index] || 0;
@@ -963,7 +966,7 @@ const SalesOrderForm = (props: Props) => {
                                 }
                             />
                             <Autocomplete
-                                options={deliveryAddressOptions}
+                                options={invoiceAddressOptions}
                                 getOptionLabel={(option) => {
                                     const stateName = getStateName(option.StatesFId);
                                     const cityName = getCityName(option.CitiesFId);
@@ -994,7 +997,7 @@ const SalesOrderForm = (props: Props) => {
                             />
 
                             <Autocomplete
-                                options={invoiceAddressOptions}
+                                options={deliveryAddressOptions}
                                 getOptionLabel={(option) => {
                                     const stateName = getStateName(option.StatesFId);
                                     const cityName = getCityName(option.CitiesFId);
@@ -1725,7 +1728,11 @@ const SalesOrderForm = (props: Props) => {
                                                             size="small"
                                                             name="ProductsFId"
                                                             fullWidth
-
+                                                            helperText={
+                                                                !validateFields(customersAsset)
+                                                                    ? "Product is required when an asset is selected."
+                                                                    : ""
+                                                            }
                                                         />
                                                     )}
                                                 />
@@ -1745,6 +1752,7 @@ const SalesOrderForm = (props: Props) => {
                                                     size="small"
                                                     fullWidth
 
+
                                                 />
                                             </TableCell>
                                             <TableCell sx={tableFormStyles}>
@@ -1763,8 +1771,8 @@ const SalesOrderForm = (props: Props) => {
                                                     name="Status"
                                                     value={customersAsset.Status}
                                                     onChange={(e) => handleAssestChange(index, e)}
-                                                    validators={['required']}
-                                                    errorMessages={['This field is required']}
+                                                    // validators={['required']}
+                                                    // errorMessages={['This field is required']}
                                                     fullWidth
                                                     size="small"
 

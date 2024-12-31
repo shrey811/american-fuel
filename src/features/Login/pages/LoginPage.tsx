@@ -258,18 +258,18 @@ const LoginPage = (props: Props) => {
             disabled={isIntuitLoader}
           />
         </Grid>
-        <Grid container sx={{ mt: 2 }}>
-          <Grid item xs>
+        {/* <Grid container sx={{ mt: 2 }}> */}
+        {/* <Grid item xs>
             <Link component={RouterLink} to="/reset-password" variant="body2">
               Forgot password?
             </Link>
-          </Grid>
-          <Grid item>
+          </Grid> */}
+        {/* <Grid item>
             <Link component={RouterLink} to="/signup" variant="body2">
               {"Don't have an account? Sign Up"}
             </Link>
-          </Grid>
-        </Grid>
+          </Grid> */}
+        {/* </Grid> */}
       </Box>
     </Container>
   );
