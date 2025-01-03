@@ -8,7 +8,7 @@ const DashboardRoutes = lazy(() => import('features/Dashboard/routes'));
 const LoginRoutes = lazy(() => import('features/Login/routes'));
 const SignupRoutes = lazy(() => import('features/Signup/routes'));
 const VendorRoutes = lazy(() => import('features/Vendor/routes'));
-const CustomerRoutes = lazy(() => import('features/Customer/routes'));
+const CustomerRoutes = lazy(() => import('features/Customer/pages/CustomerPage'));
 const ProductRoutes = lazy(() => import('features/Product/routes'));
 const ResetRoutes = lazy(() => import('features/PasswordReset/routes'));
 const StateRoutes = lazy(() => import('features/Setting/State/routes'));

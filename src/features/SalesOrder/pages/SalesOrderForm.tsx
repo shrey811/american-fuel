@@ -802,16 +802,6 @@ const SalesOrderForm = (props: Props) => {
                 return { ...product, TaxAmount, TaxesDetails, Amount, Id };
             });
 
-
-
-            // const totalTaxAmount = {
-            //     initialData.Products.reduce((total, product) => (
-            //         total + product.TaxesDetails.reduce((taxTotal, tax) => (
-            //             taxTotal + (tax.TaxRate * product.BilledQuantity)
-            //         ), ((product.BilledQuantity * product.UnitRate) + (product.FreightAmount * product.BilledQuantity)) || 0)
-            //     ), 0).toFixed(2)
-            // }
-
             const totalTaxAmount = initialData.Products.reduce((total, product) => (
                 total + product.TaxesDetails.reduce((taxTotal, tax) => (
                     taxTotal + (tax.TaxRate * product.BilledQuantity)
@@ -820,7 +810,7 @@ const SalesOrderForm = (props: Props) => {
 
 
             const formattedOtherCharges = additionalCharges
-                .filter(charge => charge.BilledQuantity > 0 || charge.Price > 0) // Keep charges with non-zero billed quantity or price
+                .filter(charge => charge.BilledQuantity > 0 || charge.Price > 0)
                 .map(charge => {
                     const getName = () => {
                         const Additionalname = additionalchargesList.find(s => s.Id === charge.AdditionalChargeFId) || null;
@@ -835,6 +825,19 @@ const SalesOrderForm = (props: Props) => {
                     };
                 }) || 0;
 
+            const isDefaultDeliveryInfo = (info: typeof salesOrderInitialValues["DeliveryInfos"][0]) => {
+                return (
+                    info.CustomersAssetFId === 0 &&
+                    info.ProductsFId === 0 &&
+                    info.DeliveryQuantity === 0 &&
+                    info.Rate === 0 &&
+                    info.Status === ''
+                );
+            };
+
+            const filteredDeliveryInfos = initialData.DeliveryInfos.every(isDefaultDeliveryInfo)
+                ? []
+                : initialData.DeliveryInfos;
 
             const finalData = {
                 ...initialData,
@@ -843,8 +846,9 @@ const SalesOrderForm = (props: Props) => {
                 TotalAmt: totalTaxAmount,
                 ExpectedDateTime: moment.utc(initialData.ExpectedDateTime),
                 OrderDateTime: moment.utc(initialData.OrderDateTime),
-                InvoiceDateTime: moment.utc(initialData.InvoiceDateTime)
-
+                InvoiceDateTime: moment.utc(initialData.InvoiceDateTime),
+                DeliveryInfos: filteredDeliveryInfos,
+                InvoiceAddressFID: initialData.InvoiceAddressFID || null,
             };
 
             if (props.editData) {
@@ -863,22 +867,25 @@ const SalesOrderForm = (props: Props) => {
                 setInitialData({ ...salesOrderInitialValues });
                 if (response.message.code === "SUCCESS") {
                     toast.success(response.message.message);
+                    props.toggleForm();
                 }
                 if (response.message.code === "FAILED") {
                     toast.error(response.message.message);
+                    console.log(initialData)
+                    setInitialData({ ...initialData });
                 }
-                props.toggleForm();
+
             }
         } catch (error) {
             toast.error("Something went wrong");
         }
     };
     useEffect(() => {
-        // Example: Updating Products dynamically with default 'Gross' value
+
         if (initialData.Products) {
             const updatedProducts = initialData.Products.map(product => ({
                 ...product,
-                Basis: product.Basis || 'Gross', // Default to 'Gross' if undefined
+                Basis: product.Basis || 'Gross',
             }));
             setInitialData(prevData => ({ ...prevData, Products: updatedProducts }));
         }
@@ -1009,7 +1016,7 @@ const SalesOrderForm = (props: Props) => {
                                     <TextField
                                         {...params}
                                         label="Invoice Address"
-                                        required
+                                        // required
                                         variant="filled"
                                         size="small"
                                         fullWidth

@@ -107,52 +107,60 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
                         </Grid>
 
                         <Grid item xs={6}>
-                            <Typography variant="body1">
-                                <strong>Bill To:</strong>
-                                <br />
-                                {delivertTicketList?.BillTo?.split(",")[0] || 'N/A'}
-                            </Typography>
+                            {delivertTicketList?.map((index: any) => (
+                                <>
+                                    <Typography variant="body1">
+                                        <strong>Bill To:</strong>
+                                        <br />
+                                        {index.BillTo?.split(",")[0] || 'N/A'}
+                                    </Typography>
 
-                            <Typography variant="body1">
-                                <strong>Delivered To:</strong>{' '}
-                                <br />
-                                {(() => {
-                                    const deliveryTo = delivertTicketList?.DeliveryTo || '';
-                                    const line1Match = deliveryTo.match(/Line1='([^']*)'/)?.[1] || 'N/A';
-                                    const stateMatch = deliveryTo.match(/StatesFId=(\d+)/)?.[1] || 'N/A';
-                                    const cityMatch = deliveryTo.match(/CitiesFId=(\d+)/)?.[1] || 'N/A';
-                                    const stateName = getStateNameById(Number(stateMatch));
-                                    const cityName = getCityNameById(Number(cityMatch));
-                                    return `${line1Match}, ${cityName}, ${stateName}`;
-                                })()}
-                            </Typography>
-                            <Typography variant="body1">
-                                <strong>Arrived At:</strong>{' '}
-                                {moment.utc(delivertTicketList?.ArrivedAt).format('DD MMM YYYY hh:mm A') || 'N/A'}
-                            </Typography>
-                            <Typography variant="body1">
-                                <strong>Completed:</strong>{' '}
-                                {moment.utc(delivertTicketList?.Completed).format('DD MMM YYYY hh:mm A') || 'N/A'}
-                            </Typography>
-                            <Typography variant="body1">
-                                <strong>Delivered By:</strong> {delivertTicketList?.DeliveredBy || 'N/A'}
-                            </Typography>
+                                    <Typography variant="body1">
+                                        <strong>Delivered To:</strong>{' '}
+                                        <br />
+                                        {(() => {
+                                            const deliveryTo = index.DeliveryTo || '';
+                                            const line1Match = deliveryTo.match(/Line1='([^']*)'/)?.[1] || 'N/A';
+                                            const stateMatch = deliveryTo.match(/StatesFId=(\d+)/)?.[1] || 'N/A';
+                                            const cityMatch = deliveryTo.match(/CitiesFId=(\d+)/)?.[1] || 'N/A';
+                                            const stateName = getStateNameById(Number(stateMatch));
+                                            const cityName = getCityNameById(Number(cityMatch));
+                                            return `${line1Match}, ${cityName}, ${stateName}`;
+                                        })()}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        <strong>Arrived At:</strong>{' '}
+                                        {moment.utc(index.ArrivedAt).format('DD MMM YYYY hh:mm A') || 'N/A'}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        <strong>Completed:</strong>{' '}
+                                        {moment.utc(index.Completed).format('DD MMM YYYY hh:mm A') || 'N/A'}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        <strong>Delivered By:</strong> {index.DeliveredBy || 'N/A'}
+                                    </Typography>
+                                </>
+                            ))}
                         </Grid>
                         <Grid item xs={6} sx={{ textAlign: 'right' }}>
-
-                            <Typography variant="h6"><strong>Delivery Ticket</strong></Typography>
-                            <Typography variant="body1">
-                                <strong>SO Order No.:</strong> {delivertTicketList?.DTOrderNo || 'N/A'}
-                            </Typography>
-                            {/* <Typography variant="body1">
+                            {delivertTicketList?.map((index: any) => (
+                                <>
+                                    <Typography variant="h6"><strong>Delivery Ticket</strong></Typography>
+                                    <Typography variant="body1">
+                                        <strong>SO Order No.:</strong> {index.DTOrderNo || 'N/A'}
+                                    </Typography>
+                                    {/* <Typography variant="body1">
                                 <strong>Customer No.:</strong> {delivertTicketList?.CustomerNo || 'N/A'}
                             </Typography>
                             <Typography variant="body1">
                                 <strong>ShipTo No.:</strong> {delivertTicketList?.ShipToNo || 'N/A'}
                             </Typography> */}
-                            <Typography variant="body1">
-                                <strong>Truck#:</strong> {delivertTicketList?.DTTruck || 'N/A'}
-                            </Typography>
+
+                                    <Typography variant="body1">
+                                        <strong>Truck#:</strong> {index?.DTTruck || 'N/A'}
+                                    </Typography>
+                                </>
+                            ))}
                             {/* <Typography variant="body1">
                                 <strong>Driver:</strong> {delivertTicketList?.DTDriver || 'N/A'}
                             </Typography> */}
@@ -168,59 +176,67 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
                                     <TableCell>Delivered Quantity (gal)</TableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
-                                {delivertTicketList?.ProductsDetail && (
-                                    <>
-                                        {delivertTicketList.ProductsDetail.map((asset: any, index: number) => (
-                                            <TableRow key={index}>
-                                                <TableCell>{asset.ProductName || 'N/A'}</TableCell>
-                                                <TableCell>{asset.DeliveredQuantity || 0}</TableCell>
-                                            </TableRow>
-                                        ))}
+                            {delivertTicketList?.map((index: any) => (
+                                <>
+                                    <TableBody>
+                                        {index.ProductsDetail && (
+                                            <>
+                                                {index.ProductsDetail.map((asset: any, index: number) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell>{asset.ProductName || 'N/A'}</TableCell>
+                                                        <TableCell>{asset.DeliveredQuantity || 0}</TableCell>
+                                                    </TableRow>
+                                                ))}
 
-                                        {/* Calculate the total and add a summary row */}
-                                        <TableRow>
-                                            <TableCell><strong>Total</strong></TableCell>
-                                            <TableCell>
-                                                <strong>
-                                                    {delivertTicketList.ProductsDetail.reduce(
-                                                        (total: number, asset: any) => total + (asset.DeliveredQuantity || 0),
-                                                        0
-                                                    )}
-                                                </strong>
-                                            </TableCell>
-                                        </TableRow>
-                                    </>
-                                )}
-                            </TableBody>
+                                                {/* Calculate the total and add a summary row */}
+                                                <TableRow>
+                                                    <TableCell><strong>Total</strong></TableCell>
+                                                    <TableCell>
+                                                        <strong>
+                                                            {index.ProductsDetail.reduce(
+                                                                (total: number, asset: any) => total + (asset.DeliveredQuantity || 0),
+                                                                0
+                                                            )}
+                                                        </strong>
+                                                    </TableCell>
+                                                </TableRow>
+                                            </>
+                                        )}
+                                    </TableBody>
+                                </>
+                            ))}
                         </Table>
                     </TableContainer>
                     <Divider sx={{ marginBottom: '50px' }} />
-                    {delivertTicketList?.AssetsDetail?.length > 0 && (
+                    {delivertTicketList?.map((index: any) => (
                         <>
-                            <Typography variant="h6">Breakdown By Asset:</Typography>
-                            <TableContainer component={Paper}>
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Product Name</TableCell>
-                                            <TableCell>Asset Name</TableCell>
-                                            <TableCell>Delivered Quantity</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {delivertTicketList.AssetsDetail.map((asset: any, index: number) => (
-                                            <TableRow key={index}>
-                                                <TableCell>{asset.ProductName || 'N/A'}</TableCell>
-                                                <TableCell>{asset.AssetName || 'N/A'}</TableCell>
-                                                <TableCell>{asset.DeliveredQuantity || 0}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                            {index.AssetsDetail?.length > 0 && (
+                                <>
+                                    <Typography variant="h6">Breakdown By Asset:</Typography>
+                                    <TableContainer component={Paper}>
+                                        <Table>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Product Name</TableCell>
+                                                    <TableCell>Asset Name</TableCell>
+                                                    <TableCell>Delivered Quantity</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {index.AssetsDetail.map((asset: any, index: number) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell>{asset.ProductName || 'N/A'}</TableCell>
+                                                        <TableCell>{asset.AssetName || 'N/A'}</TableCell>
+                                                        <TableCell>{asset.DeliveredQuantity || 0}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </>
+                            )}
                         </>
-                    )}
+                    ))}
 
                 </Box>
             </div>
