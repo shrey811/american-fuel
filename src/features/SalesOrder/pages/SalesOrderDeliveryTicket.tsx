@@ -234,7 +234,7 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
                                         <TableRow>
                                             <TableCell sx={{ fontSize: '0.8rem' }}>Product Name</TableCell>
                                             <TableCell sx={{ fontSize: '0.8rem' }}>Asset Name</TableCell>
-                                            <TableCell sx={{ fontSize: '0.8rem' }}>Delivered Quantity</TableCell>
+                                            <TableCell sx={{ fontSize: '0.8rem' }}>Delivered Quantity (gal)</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>

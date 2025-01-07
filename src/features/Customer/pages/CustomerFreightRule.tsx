@@ -47,7 +47,7 @@ const customerFRInitialValues = {
   FRF_list: [
     {
       FRFId: 0,
-      EffectiveDateTime: moment.utc().format('MM/DD/YYYYTHH:mm'),
+      EffectiveDateTime: moment.utc().format('YYYY-MM-DDTHH:mm'),
     }
   ],
 };
@@ -60,8 +60,8 @@ const CustomerFreightRule = (props: Props) => {
     ...customerFRInitialValues,
     FRF_list: props.customerFR?.map((item: any) => ({
       ...item,
-      EffectiveDateTime: item?.EffectiveDateTime || moment.utc().format('MM/DD/YYYYTHH:mm'),
-    })) || [{ EffectiveDateTime: moment.utc().format('MM/DD/YYYYTHH:mm') }],
+      EffectiveDateTime: item?.EffectiveDateTime || moment.utc().format('YYYY-MM-DDTHH:mm'),
+    })) || [{ EffectiveDateTime: moment.utc().format('YYYY-MM-DDTHH:mm') }],
   });
 
 
@@ -70,7 +70,7 @@ const CustomerFreightRule = (props: Props) => {
   // useEffect(() => {
   //   if (initialData && initialData.FRF_list && initialData.FRF_list.length > 0) {
   //     setEffectiveDateTime(
-  //       initialData.FRF_list.map(item => item?.EffectiveDateTime || moment().format('MM/DD/YYYYTHH:mm'))
+  //       initialData.FRF_list.map(item => item?.EffectiveDateTime || moment().format('YYYY-MM-DDTHH:mm'))
   //     );
   //   }
   // }, [initialData]);
@@ -170,7 +170,7 @@ const CustomerFreightRule = (props: Props) => {
       updatedPRFList[index] = {
         ...updatedPRFList[index],
         // EffectiveDateTime: value,
-        EffectiveDateTime: moment.utc(value).format('MM/DD/YYYYTHH:mm'),
+        EffectiveDateTime: moment.utc(value).format('YYYY-MM-DDTHH:mm'),
       };
       return { ...prevState, FRF_list: updatedPRFList };
     });
@@ -369,8 +369,8 @@ const CustomerFreightRule = (props: Props) => {
         return {
           FRFId: row.Id,
           EffectiveDateTime: matchedItem
-            ? moment.utc(matchedItem.EffectiveDateTime).local().format('MM/DD/YYYYTHH:mm')
-            : moment.utc().format('MM/DD/YYYYTHH:mm'),
+            ? moment.utc(matchedItem.EffectiveDateTime).local().format('YYYY-MM-DDTHH:mm')
+            : moment.utc().format('YYYY-MM-DDTHH:mm'),
         };
       });
 
@@ -397,7 +397,7 @@ const CustomerFreightRule = (props: Props) => {
         // Find the original index in sortedData
         const originalIndex = sortedData.findIndex(item => item.Id === row.Id);
 
-        const effectiveDateTime = initialData.FRF_list[originalIndex]?.EffectiveDateTime || moment.utc().format('MM/DD/YYYYTHH:mm');
+        const effectiveDateTime = initialData.FRF_list[originalIndex]?.EffectiveDateTime || moment.utc().format('YYYY-MM-DDTHH:mm');
 
         console.log(`Original Index: ${originalIndex}, Row ID: ${row.Id}, EffectiveDateTime: ${effectiveDateTime}`);
 
@@ -585,7 +585,7 @@ const CustomerFreightRule = (props: Props) => {
                         label="EffectiveDateTime"
                         name={`EffectiveDateTime-${index}`}
                         type='datetime-local'
-                        value={initialData.FRF_list[index]?.EffectiveDateTime || moment.utc().format('MM/DD/YYYYTHH:mm')}
+                        value={initialData.FRF_list[index]?.EffectiveDateTime || moment.utc().format('YYYY-MM-DDTHH:mm')}
                         onChange={handleChange}
                         fullWidth
                         size="small"
@@ -594,7 +594,7 @@ const CustomerFreightRule = (props: Props) => {
                       <TextValidator
                         label="Effective Date Time"
                         name={`EffectiveDateTime-${index}`}
-                        value={initialData.FRF_list[index]?.EffectiveDateTime || moment.utc().format('MM/DD/YYYYTHH:mm')}
+                        value={initialData.FRF_list[index]?.EffectiveDateTime || moment.utc().format('YYYY-MM-DDTHH:mm')}
                         type="datetime-local"
                         onChange={handleChange}
                         fullWidth

@@ -298,9 +298,9 @@ const SalesOrderForm = (props: Props) => {
         if (props.editData) {
             setInitialData({
                 ...props.editData,
-                ExpectedDateTime: moment.utc(props.editData.ExpectedDateTime).format('MM/DD/YYYY HH:mm:ss'),
-                OrderDateTime: moment.utc(props.editData.OrderDateTime).format('MM/DD/YYYY HH:mm:ss'),
-                InvoiceDateTime: moment.utc(props.editData.InvoiceDateTime).format('MM/DD/YYYY HH:mm:ss')
+                ExpectedDateTime: moment.utc(props.editData.ExpectedDateTime).format('YYYY-MM-DD HH:mm:ss'),
+                OrderDateTime: moment.utc(props.editData.OrderDateTime).format('YYYY-MM-DD HH:mm:ss'),
+                InvoiceDateTime: moment.utc(props.editData.InvoiceDateTime).format('YYYY-MM-DD HH:mm:ss')
             });
 
             if (props.editData.OtherCharges) {
