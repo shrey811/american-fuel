@@ -1228,6 +1228,7 @@ const SalesOrderForm = (props: Props) => {
                                                             {...params}
                                                             size="small"
                                                             name="ProductsFId"
+                                                            required
                                                             sx={{ width: "130px" }}
                                                         />
                                                     )}
@@ -1296,6 +1297,7 @@ const SalesOrderForm = (props: Props) => {
                                                     errorMessages={['This field is required']}
                                                     // type="number"
                                                     size="small"
+                                                    required
                                                     fullWidth
                                                 />
                                             </TableCell>

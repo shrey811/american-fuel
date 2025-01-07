@@ -17,7 +17,13 @@ export const ShipBillStyles = {
     marginLeft: '0rem',
     width: 'calc( 100% + 0px)',
 }
-
+export const DeliveryBillStyles = {
+    border: '1px solid lightgray',
+    padding: '1.2rem',
+    marginTop: '0rem',
+    marginLeft: '1.5rem',
+    width: 'calc( 100% + 0px)',
+}
 export const ordersStyles = {
     border: '1px solid lightgray',
     padding: '1.2rem',
@@ -25,7 +31,13 @@ export const ordersStyles = {
     width: 'calc( 100% + 0px)',
     marginTop: '1rem'
 }
-
+export const deliverysStyles = {
+    border: '1px solid lightgray',
+    padding: '1.2rem',
+    marginLeft: '1.5rem',
+    width: 'calc( 100% + 0px)',
+    marginTop: '1rem'
+}
 // export const strongStyles = {
 //     marginRight: '1rem',
 // }
