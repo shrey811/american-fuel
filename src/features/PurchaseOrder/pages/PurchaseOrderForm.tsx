@@ -773,11 +773,13 @@ const PurchaseOrderForm = (props: Props) => {
                 setInitialData({ ...purchaseOrderInitialValues });
                 if (response.message.code === "SUCCESS") {
                     toast.success(response.message.message);
+                    props.toggleForm();
                 }
                 if (response.message.code === "FAILED") {
                     toast.error(response.message.message);
+                    setInitialData({ ...initialData });
                 }
-                props.toggleForm();
+
             }
         } catch (error) {
             toast.error("Something went wrong");

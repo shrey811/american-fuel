@@ -542,7 +542,9 @@ const SalesOrderForm = (props: Props) => {
                         ProductsFId: selectedProduct.Id,
                         EffectiveDateTime: moment.utc(initialData.ExpectedDateTime),
                     })).then((secondResponse) => {
-                        const cost = secondResponse.payload.message.data || '0';
+                        const cost = typeof secondResponse.payload.message.data === 'string'
+                            ? parseFloat(secondResponse.payload.message.data)
+                            : secondResponse.payload.message.data || 0;
                         if (cost === '0') {
                             toast.error('Price Rule doesnot exsist')
                         }
@@ -561,9 +563,13 @@ const SalesOrderForm = (props: Props) => {
                         );
 
 
-                        setInitialData({
-                            ...initialData,
-                            Products: updatedProductsWithUnitRate,
+                        setInitialData((prevData) => {
+                            const updatedData = {
+                                ...prevData,
+                                Products: updatedProductsWithUnitRate,
+                            };
+                            console.log("Updated Initial Data: ", updatedData); // Ensure UnitRate is set correctly
+                            return updatedData;
                         });
 
                         dispatch(filterFreightRule({
@@ -756,6 +762,8 @@ const SalesOrderForm = (props: Props) => {
         });
     };
 
+
+
     const handleSubmit = async () => {
         try {
             const updatedProducts = initialData.Products.map((product, index) => {
@@ -763,7 +771,7 @@ const SalesOrderForm = (props: Props) => {
                 let TaxAmount = 0;
                 let TaxesDetails: any[] = [];
                 let Amount = 0;
-
+                const Basis = product.Basis === '' ? 'Gross' : product.Basis;
                 if (salesDetails[index] && salesDetails[index].length > 0) {
                     TaxesDetails = salesDetails[index].map((tax: any) => {
                         const billedQuantity = product.BilledQuantity;
@@ -799,7 +807,7 @@ const SalesOrderForm = (props: Props) => {
 
                 }
                 Amount = ((product.BilledQuantity * product.UnitRate) + (product.FreightAmount * product.BilledQuantity));
-                return { ...product, TaxAmount, TaxesDetails, Amount, Id };
+                return { ...product, TaxAmount, TaxesDetails, Amount, Id, Basis };
             });
 
             const totalTaxAmount = initialData.Products.reduce((total, product) => (
@@ -880,16 +888,7 @@ const SalesOrderForm = (props: Props) => {
             toast.error("Something went wrong");
         }
     };
-    useEffect(() => {
 
-        if (initialData.Products) {
-            const updatedProducts = initialData.Products.map(product => ({
-                ...product,
-                Basis: product.Basis || 'Gross',
-            }));
-            setInitialData(prevData => ({ ...prevData, Products: updatedProducts }));
-        }
-    }, [initialData.Products]);
 
     const handleEditCustomer = () => {
         if (props.editData) {
@@ -1306,8 +1305,8 @@ const SalesOrderForm = (props: Props) => {
                                                     fullWidth
                                                     name="UnitRate"
                                                     // type="number"
-                                                    // value={product.UnitRate || 0}
-                                                    value={typeof product.UnitRate === 'object' ? 0 : product.UnitRate || 0}
+                                                    value={product.UnitRate ?? 0}
+                                                    //value={typeof product.UnitRate === 'object' ? 0 : product.UnitRate || 0}
                                                     onChange={(e) => handleProductChange(index, e)}
                                                     size="small"
                                                 />
@@ -1463,6 +1462,182 @@ const SalesOrderForm = (props: Props) => {
                                 </span>
 
                             </Typography>
+                        </Box>
+                    </TableContainer>
+
+
+                    {/* Assest Table */}
+                    <TableContainer component={Paper} sx={{ marginTop: '2rem' }}>
+                        <Table size="small" aria-label="a dense table" sx={{ minWidth: 650 }}>
+                            <TableHead>
+                                <TableRow sx={{ background: '#EFEFEF' }}>
+                                    <TableCell>Asset Name</TableCell>
+
+                                    <TableCell>UniqueId</TableCell>
+                                    <TableCell>Product</TableCell>
+                                    <TableCell>DeliveryQuantity</TableCell>
+                                    <TableCell>Rate</TableCell>
+                                    <TableCell>Status</TableCell>
+
+                                    <TableCell>Action</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {initialData.DeliveryInfos.map((customersAsset, index) => {
+                                    const selectedAsset = customerAssestList.find(
+                                        (item) => item.Id === customersAsset.CustomersAssetFId
+                                    );
+
+                                    return (
+                                        <TableRow>
+                                            <TableCell sx={tableFormStyles}>
+                                                <Autocomplete
+                                                    fullWidth
+                                                    options={customerAssestList}
+                                                    getOptionLabel={(option) => option.Name}
+                                                    value={
+                                                        customerAssestList.find(
+                                                            (item) => item.Id === initialData.DeliveryInfos[index].CustomersAssetFId
+                                                        ) || null
+                                                    }
+
+                                                    onChange={(event, value) => {
+                                                        handleAssestChange(index, {
+                                                            target: { name: "CustomersAssetFId", value: value ? value.Id : 0 },
+                                                        });
+                                                    }}
+                                                    renderInput={(params) => (
+                                                        <TextField
+                                                            {...params}
+                                                            size="small"
+                                                            name="CustomersAssetFId"
+                                                            fullWidth
+                                                        />
+                                                    )}
+                                                />
+                                            </TableCell>
+                                            <TableCell sx={tableFormStyles}>
+                                                <TextValidator
+                                                    name="UniqueId"
+                                                    value={selectedAsset ? selectedAsset.UniqueId : 'N/A'} // Display UniqueId
+                                                    validators={['required']} // Add validation if necessary
+                                                    errorMessages={['This field is required']} // Error message if validation fails
+                                                    onChange={(e) => handleAssestChange(index, e)} // Handle changes if editable
+                                                    fullWidth
+                                                    disabled
+                                                    size="small"
+                                                    InputProps={{
+                                                        readOnly: true, // Make this field readonly since it's derived from selected asset
+                                                    }}
+                                                />
+                                            </TableCell>
+
+
+                                            <TableCell sx={{ width: '300px', padding: '6px' }} >
+                                                <Autocomplete
+
+                                                    options={
+                                                        customerAssestList.find((item) => item.Id === customersAsset.CustomersAssetFId)?.ProductFIds?.map(
+                                                            (productId) => productList.find((product) => product.Id === productId)
+                                                        )?.filter(Boolean) ?? [] // Ensure options is always an array
+                                                    }
+                                                    getOptionLabel={(option) => option?.Name || ''}
+                                                    value={
+                                                        productList.find((item) => item.Id === customersAsset.ProductsFId) || null
+                                                    }
+                                                    onChange={(event, value) => {
+                                                        handleAssestChange(index, {
+                                                            target: { name: "ProductsFId", value: value ? value.Id : 0 },
+                                                        });
+                                                    }}
+                                                    renderInput={(params) => (
+                                                        <TextField
+                                                            {...params}
+                                                            size="small"
+                                                            name="ProductsFId"
+                                                            fullWidth
+                                                            helperText={
+                                                                !validateFields(customersAsset)
+                                                                    ? "Product is required when an asset is selected."
+                                                                    : ""
+                                                            }
+                                                        />
+                                                    )}
+                                                />
+
+
+                                            </TableCell>
+
+
+
+
+                                            <TableCell sx={tableFormStyles}>
+                                                <TextValidator
+                                                    name="DeliveryQuantity"
+                                                    value={customersAsset.DeliveryQuantity}
+                                                    onChange={(e) => handleAssestChange(index, e)}
+                                                    type="number"
+                                                    size="small"
+                                                    fullWidth
+
+
+                                                />
+                                            </TableCell>
+                                            <TableCell sx={tableFormStyles}>
+                                                <TextValidator
+                                                    name="Rate"
+                                                    value={customersAsset.Rate}
+                                                    onChange={(e) => handleAssestChange(index, e)}
+                                                    type="number"
+                                                    size="small"
+                                                    fullWidth
+                                                />
+                                            </TableCell>
+                                            <TableCell sx={tableFormStyles}>
+                                                <TextValidator
+                                                    select
+                                                    name="Status"
+                                                    value={customersAsset.Status}
+                                                    onChange={(e) => handleAssestChange(index, e)}
+                                                    // validators={['required']}
+                                                    // errorMessages={['This field is required']}
+                                                    fullWidth
+                                                    size="small"
+
+                                                >
+                                                    <MenuItem value="Delivered" >Delivered</MenuItem>
+                                                    <MenuItem value="Not Delivered">Not Delivered</MenuItem>
+                                                </TextValidator>
+                                            </TableCell>
+                                            <TableCell sx={{ padding: '0px' }}>
+                                                <Button variant="text" size="large" onClick={() => removecustomerAssest(index)}>
+                                                    <Tooltip title="Remove Customer Assests" arrow placement="top">
+                                                        <RemoveCircle sx={{ color: 'darkred' }} />
+                                                    </Tooltip>
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                        <Box
+                            sx={{
+                                margin: '0.5rem 0.4rem',
+                                color: '#f44336',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between', // Adjust spacing between items
+                                fontSize: '0.71rem',
+                                cursor: 'pointer',
+                                whiteSpace: 'nowrap',
+                            }}
+                        >
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <Typography onClick={handleAddCustomerAssest} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                                    <AddCircle /> &nbsp; Add Assests
+                                </Typography>
+                            </div>
                         </Box>
                     </TableContainer>
 
@@ -1645,180 +1820,7 @@ const SalesOrderForm = (props: Props) => {
                         </Box>
                     </TableContainer>
 
-                    {/* Assest Table */}
-                    <TableContainer component={Paper} sx={{ marginTop: '2rem' }}>
-                        <Table size="small" aria-label="a dense table" sx={{ minWidth: 650 }}>
-                            <TableHead>
-                                <TableRow sx={{ background: '#EFEFEF' }}>
-                                    <TableCell>Asset Name</TableCell>
 
-                                    <TableCell>UniqueId</TableCell>
-                                    <TableCell>Product</TableCell>
-                                    <TableCell>DeliveryQuantity</TableCell>
-                                    <TableCell>   Rate</TableCell>
-                                    <TableCell>Status</TableCell>
-
-                                    <TableCell>Action</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {initialData.DeliveryInfos.map((customersAsset, index) => {
-                                    const selectedAsset = customerAssestList.find(
-                                        (item) => item.Id === customersAsset.CustomersAssetFId
-                                    );
-
-                                    return (
-                                        <TableRow>
-                                            <TableCell sx={tableFormStyles}>
-                                                <Autocomplete
-                                                    fullWidth
-                                                    options={customerAssestList}
-                                                    getOptionLabel={(option) => option.Name}
-                                                    value={
-                                                        customerAssestList.find(
-                                                            (item) => item.Id === initialData.DeliveryInfos[index].CustomersAssetFId
-                                                        ) || null
-                                                    }
-
-                                                    onChange={(event, value) => {
-                                                        handleAssestChange(index, {
-                                                            target: { name: "CustomersAssetFId", value: value ? value.Id : 0 },
-                                                        });
-                                                    }}
-                                                    renderInput={(params) => (
-                                                        <TextField
-                                                            {...params}
-                                                            size="small"
-                                                            name="CustomersAssetFId"
-                                                            fullWidth
-                                                        />
-                                                    )}
-                                                />
-                                            </TableCell>
-                                            <TableCell sx={tableFormStyles}>
-                                                <TextValidator
-                                                    name="UniqueId"
-                                                    value={selectedAsset ? selectedAsset.UniqueId : 'N/A'} // Display UniqueId
-                                                    validators={['required']} // Add validation if necessary
-                                                    errorMessages={['This field is required']} // Error message if validation fails
-                                                    onChange={(e) => handleAssestChange(index, e)} // Handle changes if editable
-                                                    fullWidth
-                                                    disabled
-                                                    size="small"
-                                                    InputProps={{
-                                                        readOnly: true, // Make this field readonly since it's derived from selected asset
-                                                    }}
-                                                />
-                                            </TableCell>
-
-
-                                            <TableCell sx={{ width: '300px', padding: '6px' }} >
-                                                <Autocomplete
-
-                                                    options={
-                                                        customerAssestList.find((item) => item.Id === customersAsset.CustomersAssetFId)?.ProductFIds?.map(
-                                                            (productId) => productList.find((product) => product.Id === productId)
-                                                        )?.filter(Boolean) ?? [] // Ensure options is always an array
-                                                    }
-                                                    getOptionLabel={(option) => option?.Name || ''}
-                                                    value={
-                                                        productList.find((item) => item.Id === customersAsset.ProductsFId) || null
-                                                    }
-                                                    onChange={(event, value) => {
-                                                        handleAssestChange(index, {
-                                                            target: { name: "ProductsFId", value: value ? value.Id : 0 },
-                                                        });
-                                                    }}
-                                                    renderInput={(params) => (
-                                                        <TextField
-                                                            {...params}
-                                                            size="small"
-                                                            name="ProductsFId"
-                                                            fullWidth
-                                                            helperText={
-                                                                !validateFields(customersAsset)
-                                                                    ? "Product is required when an asset is selected."
-                                                                    : ""
-                                                            }
-                                                        />
-                                                    )}
-                                                />
-
-
-                                            </TableCell>
-
-
-
-
-                                            <TableCell sx={tableFormStyles}>
-                                                <TextValidator
-                                                    name="DeliveryQuantity"
-                                                    value={customersAsset.DeliveryQuantity}
-                                                    onChange={(e) => handleAssestChange(index, e)}
-                                                    type="number"
-                                                    size="small"
-                                                    fullWidth
-
-
-                                                />
-                                            </TableCell>
-                                            <TableCell sx={tableFormStyles}>
-                                                <TextValidator
-                                                    name="Rate"
-                                                    value={customersAsset.Rate}
-                                                    onChange={(e) => handleAssestChange(index, e)}
-                                                    type="number"
-                                                    size="small"
-                                                    fullWidth
-                                                />
-                                            </TableCell>
-                                            <TableCell sx={tableFormStyles}>
-                                                <TextValidator
-                                                    select
-                                                    name="Status"
-                                                    value={customersAsset.Status}
-                                                    onChange={(e) => handleAssestChange(index, e)}
-                                                    // validators={['required']}
-                                                    // errorMessages={['This field is required']}
-                                                    fullWidth
-                                                    size="small"
-
-                                                >
-                                                    <MenuItem value="Delivered" >Delivered</MenuItem>
-                                                    <MenuItem value="Not Delivered">Not Delivered</MenuItem>
-                                                </TextValidator>
-                                            </TableCell>
-                                            <TableCell sx={{ padding: '0px' }}>
-                                                <Button variant="text" size="large" onClick={() => removecustomerAssest(index)}>
-                                                    <Tooltip title="Remove Customer Assests" arrow placement="top">
-                                                        <RemoveCircle sx={{ color: 'darkred' }} />
-                                                    </Tooltip>
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            </TableBody>
-                        </Table>
-                        <Box
-                            sx={{
-                                margin: '0.5rem 0.4rem',
-                                color: '#f44336',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between', // Adjust spacing between items
-                                fontSize: '0.71rem',
-                                cursor: 'pointer',
-                                whiteSpace: 'nowrap',
-                            }}
-                        >
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <Typography onClick={handleAddCustomerAssest} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                                    <AddCircle /> &nbsp; Add Assests
-                                </Typography>
-                            </div>
-                        </Box>
-                    </TableContainer>
 
 
                 </Box >

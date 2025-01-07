@@ -27,7 +27,7 @@ import html2canvas from 'html2canvas';
 import moment from 'moment';
 import { useAppDispatch, useAppSelector } from 'hooks/useStore';
 import { shallowEqual } from 'react-redux';
-import Logo from '../../../assets/american.png'
+import Logo from '../../../assets/americanpetroleum.png'
 interface Props {
   invoiceData?: any;
 }

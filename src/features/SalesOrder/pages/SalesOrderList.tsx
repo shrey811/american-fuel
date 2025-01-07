@@ -34,7 +34,7 @@ import { getBillAddressCustomer } from 'store/slices/billaddressSlice';
 import { getBillToAddresses } from 'store/slices/addressesSlice';
 import { getShipToAddresses } from 'store/slices/shipToAddressesSlice';
 import SalesOrderDeliveryTicket from './SalesOrderDeliveryTicket';
-
+import SummarizeIcon from '@mui/icons-material/Summarize';
 interface Props {
     setEditData?: any
     toggleForm: () => void;
@@ -692,11 +692,11 @@ const SalesOrderList = (props: Props) => {
                                                 </Tooltip>
                                             </ListItemIcon>
                                             {/* {item.SOStatus === 'Closed' && */}
-                                            {/* <ListItemIcon sx={{ minWidth: '24px' }}>
+                                            <ListItemIcon sx={{ minWidth: '24px' }}>
                                                 <Tooltip title="Invoice" placement="top" arrow onClick={() => generateInvoicePdf(item)}>
-                                                    <ReceiptIcon sx={{ cursor: 'pointer', marginRight: 1 }} />
+                                                    <SummarizeIcon sx={{ cursor: 'pointer', marginRight: 1 }} />
                                                 </Tooltip>
-                                            </ListItemIcon> */}
+                                            </ListItemIcon>
 
                                             <ListItemIcon sx={{ minWidth: '24px' }}>
                                                 <Tooltip title="Delivery Ticket" placement="top" arrow>
