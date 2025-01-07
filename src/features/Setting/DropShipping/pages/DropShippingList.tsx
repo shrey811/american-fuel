@@ -567,9 +567,9 @@ const DropShippingList = (props: Props) => {
                                         {visibleColumns.DocNumber && <TableCell>DO-{item.DocNumber}</TableCell>}
                                         {visibleColumns.TerminalsFId && <TableCell>{findTerminalName(item.TerminalsFId)}</TableCell>}
 
-                                        {visibleColumns.OrderDateTime && <TableCell>{moment(item.OrderDateTime).format('DD/MM/YYYY hh:mm A')}</TableCell>}
+                                        {visibleColumns.OrderDateTime && <TableCell>{moment(item.OrderDateTime).format('MM/DD/YYYY hh:mm A')}</TableCell>}
                                         {visibleColumns.BOL && <TableCell>{item.BOL}</TableCell>}
-                                        {visibleColumns.DeliveryDateTime && <TableCell>{moment(item.DeliveryDateTime).format('DD/MM/YYYY hh:mm A')}</TableCell>}
+                                        {visibleColumns.DeliveryDateTime && <TableCell>{moment(item.DeliveryDateTime).format('MM/DD/YYYY hh:mm A')}</TableCell>}
                                         <TableCell className="no-print" sx={{ minWidth: '30px' }}>
                                             <ListItemIcon sx={{ minWidth: '30px' }}
                                                 onClick={() => {

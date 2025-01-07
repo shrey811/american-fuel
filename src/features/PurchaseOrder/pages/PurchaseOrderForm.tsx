@@ -164,18 +164,18 @@ const PurchaseOrderForm = (props: Props) => {
         if (props.dropShipData) {
             setInitialData({
                 ...props.editData,
-                DeliveryDateTime: moment.utc(props.dropShipData.DeliveryDateTime).format('YYYY-MM-DD HH:mm:ss'),
-                LoadDateTime: moment.utc(props.dropShipData.LoadDateTime).format('YYYY-MM-DD HH:mm:ss'),
-                OrderDateTime: moment.utc(props.dropShipData.OrderDateTime).format('YYYY-MM-DD HH:mm:ss'),
+                DeliveryDateTime: moment.utc(props.dropShipData.DeliveryDateTime).format('MM/DD/YYYY HH:mm:ss'),
+                LoadDateTime: moment.utc(props.dropShipData.LoadDateTime).format('MM/DD/YYYY HH:mm:ss'),
+                OrderDateTime: moment.utc(props.dropShipData.OrderDateTime).format('MM/DD/YYYY HH:mm:ss'),
             });
 
         }
         if (props.editData) {
             setInitialData({
                 ...props.editData,
-                DeliveryDateTime: moment.utc(props.editData.DeliveryDateTime).format('YYYY-MM-DD HH:mm:ss'),
-                LoadDateTime: moment.utc(props.editData.LoadDateTime).format('YYYY-MM-DD HH:mm:ss'),
-                OrderDateTime: moment.utc(props.editData.OrderDateTime).format('YYYY-MM-DD HH:mm:ss'),
+                DeliveryDateTime: moment.utc(props.editData.DeliveryDateTime).format('MM/DD/YYYY HH:mm:ss'),
+                LoadDateTime: moment.utc(props.editData.LoadDateTime).format('MM/DD/YYYY HH:mm:ss'),
+                OrderDateTime: moment.utc(props.editData.OrderDateTime).format('MM/DD/YYYY HH:mm:ss'),
             });
 
         }
@@ -585,9 +585,9 @@ const PurchaseOrderForm = (props: Props) => {
                 CarrierName: props.dropShipData.CarrierName,
                 TruckName: props.dropShipData.TruckName,
                 DriverName: props.dropShipData.DriverName,
-                OrderDateTime: moment.utc(OrderDateTime).format('YYYY-MM-DD HH:mm:ss'),
-                LoadDateTime: moment.utc(LoadDateTime).format('YYYY-MM-DD HH:mm:ss'),
-                DeliveryDateTime: moment.utc(DeliveryDateTime).format('YYYY-MM-DD HH:mm:ss'),
+                OrderDateTime: moment.utc(OrderDateTime).format('MM/DD/YYYY HH:mm:ss'),
+                LoadDateTime: moment.utc(LoadDateTime).format('MM/DD/YYYY HH:mm:ss'),
+                DeliveryDateTime: moment.utc(DeliveryDateTime).format('MM/DD/YYYY HH:mm:ss'),
                 VendorsAddressFId: VendorsAddressFId || 0,
                 Products: combinedProducts.map((detail, index) => {
                     const selectedProduct = productList.find(product => product.Id === detail.ProductsFId);

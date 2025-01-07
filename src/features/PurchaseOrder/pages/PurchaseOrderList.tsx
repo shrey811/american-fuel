@@ -579,9 +579,9 @@ const PurchaseOrderList = (props: Props) => {
                                         {visibleColumns.VendorsFId && <TableCell>{findVendorName(item.VendorsFId)}</TableCell>}
                                         {visibleColumns.TerminalsFId && <TableCell>{findTerminalName(item.TerminalsFId)}</TableCell>}
                                         {visibleColumns.BOL && <TableCell>{item.BOL}</TableCell>}
-                                        {visibleColumns.OrderDateTime && <TableCell>{moment(item.OrderDateTime).format('DD/MM/YYYY hh:mm A')}</TableCell>}
-                                        {visibleColumns.DeliveryDateTime && <TableCell>{moment(item.DeliveryDateTime).format('DD/MM/YYYY hh:mm A')}</TableCell>}
-                                        {visibleColumns.LoadDateTime && <TableCell>{moment(item.LoadDateTime).format('DD/MM/YYYY hh:mm A')}</TableCell>}
+                                        {visibleColumns.OrderDateTime && <TableCell>{moment(item.OrderDateTime).format('MM/DD/YYYY hh:mm A')}</TableCell>}
+                                        {visibleColumns.DeliveryDateTime && <TableCell>{moment(item.DeliveryDateTime).format('MM/DD/YYYY hh:mm A')}</TableCell>}
+                                        {visibleColumns.LoadDateTime && <TableCell>{moment(item.LoadDateTime).format('MM/DD/YYYY hh:mm A')}</TableCell>}
 
                                         {visibleColumns.POStatus && (
                                             <TableCell>

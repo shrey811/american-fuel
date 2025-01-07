@@ -192,8 +192,8 @@ const DropShippingForm = (props: Props) => {
     //     if (props.editData) {
     //         setInitialData({
     //             ...props.editData,
-    //             ExpectedDateTime: moment.utc(props.editData.ExpectedDateTime).format('YYYY-MM-DD HH:mm:ss'),
-    //             OrderDateTime: moment.utc(props.editData.OrderDateTime).format('YYYY-MM-DD HH:mm:ss'),
+    //             ExpectedDateTime: moment.utc(props.editData.ExpectedDateTime).format('MM/DD/YYYYHH:mm:ss'),
+    //             OrderDateTime: moment.utc(props.editData.OrderDateTime).format('MM/DD/YYYYHH:mm:ss'),
     //         });
 
     //     }
@@ -265,9 +265,9 @@ const DropShippingForm = (props: Props) => {
         if (props.editData) {
             setInitialData({
                 ...props.editData,
-                LoadDateTime: moment.utc(props.editData.ExpectedDateTime).format('YYYY-MM-DD HH:mm:ss'),
-                OrderDateTime: moment.utc(props.editData.OrderDateTime).format('YYYY-MM-DD HH:mm:ss'),
-                DeliveryDateTime: moment.utc(props.editData.DeliveryDateTime).format('YYYY-MM-DD HH:mm:ss')
+                LoadDateTime: moment.utc(props.editData.ExpectedDateTime).format('MM/DD/YYYYHH:mm:ss'),
+                OrderDateTime: moment.utc(props.editData.OrderDateTime).format('MM/DD/YYYYHH:mm:ss'),
+                DeliveryDateTime: moment.utc(props.editData.DeliveryDateTime).format('MM/DD/YYYYHH:mm:ss')
             });
 
         }

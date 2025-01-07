@@ -613,8 +613,8 @@ const SalesOrderList = (props: Props) => {
                                         <TableCell>{index + 1}</TableCell>
                                         {visibleColumns.CustomersFId && <TableCell>{findCustomerName(item.CustomersFId)}</TableCell>}
                                         {visibleColumns.DocNumber && <TableCell>SO-{item.DocNumber}</TableCell>}
-                                        {visibleColumns.OrderDateTime && <TableCell>{moment.utc(item.OrderDateTime).format('DD/MM/YYYY hh:mm A')}</TableCell>}
-                                        {visibleColumns.ExpectedDateTime && <TableCell>{moment.utc(item.ExpectedDateTime).format('DD/MM/YYYY hh:mm A')}</TableCell>}
+                                        {visibleColumns.OrderDateTime && <TableCell>{moment.utc(item.OrderDateTime).format('MM/DD/YYYY hh:mm A')}</TableCell>}
+                                        {visibleColumns.ExpectedDateTime && <TableCell>{moment.utc(item.ExpectedDateTime).format('MM/DD/YYYY hh:mm A')}</TableCell>}
                                         {visibleColumns.SOStatus && (
                                             <TableCell>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>

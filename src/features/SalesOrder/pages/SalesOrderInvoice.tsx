@@ -210,15 +210,15 @@ const SalesOrderInvoice = (props: Props) => {
               </Typography>
               <Typography variant="subtitle1" sx={{ fontSize: '15px', display: 'flex', alignItems: 'center' }}>
                 <span style={{ width: '115px', fontWeight: 'bold', textAlign: 'end', paddingRight: '1rem', fontSize: '0.8rem' }}>Invoice Date:</span>
-                <span style={{ fontSize: '0.72rem' }}>{moment(props.invoiceData.InvoiceDateTime).utc().format('ddd, DD MMM YYYY hh:mm A')}</span>
+                <span style={{ fontSize: '0.72rem' }}>{moment(props.invoiceData.InvoiceDateTime).utc().format('ddd, MM/DD/YYYY hh:mm A')}</span>
               </Typography>
               <Typography variant="subtitle1" sx={{ fontSize: '15px', display: 'flex', alignItems: 'center' }}>
                 <span style={{ width: '115px', fontWeight: 'bold', textAlign: 'end', paddingRight: '1rem', fontSize: '0.8rem' }}>Delivery Date:</span>
-                <span style={{ fontSize: '0.72rem' }}>{moment(props.invoiceData.InvoiceDateTime).utc().format('ddd, DD MMM YYYY hh:mm A')}</span>
+                <span style={{ fontSize: '0.72rem' }}>{moment(props.invoiceData.InvoiceDateTime).utc().format('ddd, MM/DD/YYYY hh:mm A')}</span>
               </Typography>
               <Typography variant="subtitle1" sx={{ fontSize: '15px', display: 'flex', alignItems: 'center' }}>
                 <span style={{ width: '115px', fontWeight: 'bold', textAlign: 'end', paddingRight: '1rem', fontSize: '0.8rem' }}>Lift Date:</span>
-                <span style={{ fontSize: '0.72rem' }}>{moment(props.invoiceData.InvoiceDateTime).utc().format('ddd, DD MMM YYYY hh:mm A')}</span>
+                <span style={{ fontSize: '0.72rem' }}>{moment(props.invoiceData.InvoiceDateTime).utc().format('ddd, MM/DD/YYYY hh:mm A')}</span>
               </Typography>
 
             </Grid>

@@ -20,7 +20,7 @@ interface Props {
 const OpisIndexInitialValues = {
   PCFId: 0,
   ProductsFId: 0,
-  EffectiveDateTime: moment().format('YYYY-MM-DDTHH:mm'), // Set current datetime as default
+  EffectiveDateTime: moment().format('MM/DD/YYYYTHH:mm'), // Set current datetime as default
   Rate: 0,
   Unit: '',
   SubType: ''
@@ -88,7 +88,7 @@ const OpisIndexForm = (props: Props) => {
     if (props.editData) {
       setInitialData({
         ...props.editData,
-        EffectiveDateTime: moment(props.editData.EffectiveDateTime).format('YYYY-MM-DDTHH:mm') // Format datetime for input
+        EffectiveDateTime: moment(props.editData.EffectiveDateTime).format('MM/DD/YYYYTHH:mm') // Format datetime for input
       });
       setSelectedCategory(productCategoryList.find(category => category.Id === props.editData.PCFId) || null);
       setSelectedProduct(listCategoryProducts.find(product => product.Id === props.editData.ProductsFId) || null);

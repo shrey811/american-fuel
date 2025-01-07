@@ -61,7 +61,7 @@ const RealTimeForm = (props: Props) => {
     if (props.editData) {
       setInitialData({
         ...props.editData,
-        EffectiveDateTime: moment.utc(props.editData.EffectiveDateTime).format('YYYY-MM-DD HH:mm:ss'),
+        EffectiveDateTime: moment.utc(props.editData.EffectiveDateTime).format('MM/DD/YYYY HH:mm:ss'),
       });
     } else {
       setInitialData(RealTimeInitialValues);

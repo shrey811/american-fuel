@@ -40,7 +40,7 @@ const TaxRateForm = (props: Props) => {
         if (props.editData) {
             setInitialData({
                 ...props.editData,
-                EffectiveDateTime: moment.utc(props.editData.EffectiveDateTime).format('YYYY-MM-DDTHH:mm')
+                EffectiveDateTime: moment.utc(props.editData.EffectiveDateTime).format('MM/DD/YYYY THH:mm')
             });
         } else {
             setInitialData({ ...taxRateInitialValues, EffectiveDateTime: moment().toISOString().slice(0, 16) });

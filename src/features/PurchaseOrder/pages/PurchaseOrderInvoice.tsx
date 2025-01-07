@@ -75,7 +75,7 @@ const PurchaseOrderInvoice = (props: Props) => {
                   <strong> Lift Date/Time: </strong>&nbsp;
                 </span>
                 {/* {props.invoiceData.LiftDateTime} */}
-                {moment(props.invoiceData.LiftDateTime).utc().format('ddd, DD MMM YYYY hh:mm A')}
+                {moment(props.invoiceData.LiftDateTime).utc().format('ddd, MM/DD/YYYY hh:mm A')}
               </Typography>
             </Grid>
           </Grid>

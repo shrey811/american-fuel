@@ -129,11 +129,11 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
                             </Typography>
                             <Typography variant="body1">
                                 <strong>Arrived At:</strong>{' '}
-                                {moment.utc(delivertTicketList?.ArrivedAt).format('DD MMM YYYY hh:mm A') || 'N/A'}
+                                {moment.utc(delivertTicketList?.ArrivedAt).format('MM/DD/YYYY hh:mm A') || 'N/A'}
                             </Typography>
                             <Typography variant="body1">
                                 <strong>Completed:</strong>{' '}
-                                {moment.utc(delivertTicketList?.Completed).format('DD MMM YYYY hh:mm A') || 'N/A'}
+                                {moment.utc(delivertTicketList?.Completed).format('MM/DD/YYYY hh:mm A') || 'N/A'}
                             </Typography>
                             <Typography variant="body1">
                                 <strong>Delivered By:</strong> {delivertTicketList?.DeliveredBy || 'N/A'}

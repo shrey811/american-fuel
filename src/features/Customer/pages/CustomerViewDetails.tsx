@@ -226,7 +226,7 @@ const CustomerViewDetails = (props: Props) => {
                             <TableCell>{item.Rate}</TableCell>
                             <TableCell>{item.Unit}</TableCell>
                             <TableCell>{item.SubType}</TableCell>
-                            <TableCell>{moment.utc(item.EffectiveDateTime).format('YYYY-MM-DDTHH:mm')}</TableCell>
+                            <TableCell>{moment.utc(item.EffectiveDateTime).format('MM/DD/YYYYTHH:mm')}</TableCell>
                           </TableRow>
                         ))
                     ) : (
@@ -292,7 +292,7 @@ const CustomerViewDetails = (props: Props) => {
                             <TableCell>{item.Markup}</TableCell>
                             <TableCell>{item.Rate}</TableCell>
                             <TableCell>{item.Unit}</TableCell>
-                            <TableCell>{moment.utc(item.EffectiveDateTime).format('YYYY-MM-DDTHH:mm')}</TableCell>
+                            <TableCell>{moment.utc(item.EffectiveDateTime).format('MM/DD/YYYYTHH:mm')}</TableCell>
                           </TableRow>
                         ))
                     ) : (

@@ -407,7 +407,7 @@ const RealTimeList = (props: Props) => {
                     </IconButton>
                   </TableCell>
                   <TableCell>{item.Vendors}</TableCell>
-                  <TableCell>{moment(item.EffectiveDateTime).format('YYYY-MM-DD HH:mm A')}</TableCell>
+                  <TableCell>{moment(item.EffectiveDateTime).format('MM/DD/YYYYHH:mm A')}</TableCell>
                   <TableCell sx={{ whiteSpace: 'nowrap' }}>
                     <ListItemIcon sx={{ minWidth: '30px' }} onClick={() => {
                       // Set the edit data with the clicked item
@@ -578,7 +578,7 @@ const RealTimeList = (props: Props) => {
                             {visibleColumns.Cost && <TableCell>{item.Cost}</TableCell>}
                             {/* <TableCell>{item.Cost}</TableCell> */}
                             {visibleColumns.EffectiveDateTime && <TableCell>{item.EffectiveDateTime}</TableCell>}
-                            {/* <TableCell>{moment(item.EffectiveDateTime).format('YYYY-MM-DD HH:mm A')}</TableCell> */}
+                            {/* <TableCell>{moment(item.EffectiveDateTime).format('MM/DD/YYYYHH:mm A')}</TableCell> */}
                           </TableBody>
                         </Table>
                       </Box>

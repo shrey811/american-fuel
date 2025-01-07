@@ -227,7 +227,7 @@ const RealTimeUploadFile = (props: Props) => {
                     <TableCell>{item.Products}</TableCell>
                     <TableCell>{item.Terminals}</TableCell>
                     <TableCell>{item.Cost}</TableCell>
-                    <TableCell>{moment(item.EffectiveDateTime).format('YYYY-MM-DD HH:mm A')}</TableCell>
+                    <TableCell>{moment(item.EffectiveDateTime).format('MM/DD/YYYY HH:mm A')}</TableCell>
                     <TableCell>{item.State}</TableCell>
                     <TableCell>{item.City}</TableCell>
                     <TableCell>{item.CostType}</TableCell>

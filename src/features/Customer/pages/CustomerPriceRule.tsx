@@ -48,7 +48,7 @@ const customerPRInitialValues = {
   PRF_list: [
     {
       PRFId: 0,
-      EffectiveDateTime: moment.utc().format('YYYY-MM-DDTHH:mm'),
+      EffectiveDateTime: moment.utc().format('MM/DD/YYYYTHH:mm'),
     }
   ],
 };
@@ -63,11 +63,11 @@ const CustomerPriceRule = (props: Props) => {
     PRF_list: props.customerPR?.map((item: any) => ({
       ...item,
       EffectiveDateTime: item.EffectiveDateTime
-        ? moment.utc(item.EffectiveDateTime).format('YYYY-MM-DDTHH:mm')
-        : moment.utc().format('YYYY-MM-DDTHH:mm'),
+        ? moment.utc(item.EffectiveDateTime).format('MM/DD/YYYYTHH:mm')
+        : moment.utc().format('MM/DD/YYYYTHH:mm'),
     })) || [{
       PRFId: 0, // Default PRFId
-      EffectiveDateTime: moment.utc().format('YYYY-MM-DDTHH:mm'), // Default datetime
+      EffectiveDateTime: moment.utc().format('MM/DD/YYYYTHH:mm'), // Default datetime
     }],
   });
 
@@ -180,11 +180,11 @@ const CustomerPriceRule = (props: Props) => {
       if (!updatedPRFList[index]) {
         updatedPRFList[index] = {
           PRFId: 0,
-          EffectiveDateTime: moment.utc().format('YYYY-MM-DDTHH:mm'),
+          EffectiveDateTime: moment.utc().format('MM/DD/YYYYTHH:mm'),
         };
       }
 
-      updatedPRFList[index].EffectiveDateTime = moment.utc(value).format('YYYY-MM-DDTHH:mm');
+      updatedPRFList[index].EffectiveDateTime = moment.utc(value).format('MM/DD/YYYYTHH:mm');
       console.log({ updatedPRFList });
 
       return { ...prevState, PRF_list: updatedPRFList };
@@ -354,8 +354,8 @@ const CustomerPriceRule = (props: Props) => {
         return {
           PRFId: row.Id,
           EffectiveDateTime: matchedItem
-            ? moment.utc(matchedItem.EffectiveDateTime).format('YYYY-MM-DDTHH:mm')
-            : moment.utc().format('YYYY-MM-DDTHH:mm'), // Default datetime if no match found
+            ? moment.utc(matchedItem.EffectiveDateTime).format('MM/DD/YYYYTHH:mm')
+            : moment.utc().format('MM/DD/YYYYTHH:mm'), // Default datetime if no match found
         };
       });
 
@@ -380,14 +380,14 @@ const CustomerPriceRule = (props: Props) => {
 
       // const prfIdList = selectedRowsData.map((row, index) => ({
       //   PRFId: parseInt(row.Id, 10),
-      //   EffectiveDateTime: initialData.PRF_list[index]?.EffectiveDateTime || moment().format('YYYY-MM-DDTHH:mm'),
+      //   EffectiveDateTime: initialData.PRF_list[index]?.EffectiveDateTime || moment().format('MM/DD/YYYYTHH:mm'),
 
       // }));
       const prfIdList = selectedRowsData.map((row) => {
         // Find the original index in sortedData
         const originalIndex = sortedData.findIndex(item => item.Id === row.Id);
 
-        const effectiveDateTime = initialData.PRF_list[originalIndex]?.EffectiveDateTime || moment.utc().format('YYYY-MM-DDTHH:mm');
+        const effectiveDateTime = initialData.PRF_list[originalIndex]?.EffectiveDateTime || moment.utc().format('MM/DD/YYYYTHH:mm');
 
         console.log(`Original Index: ${originalIndex}, Row ID: ${row.Id}, EffectiveDateTime: ${effectiveDateTime}`);
 
@@ -580,7 +580,7 @@ const CustomerPriceRule = (props: Props) => {
                           label="EffectiveDateTime"
                           name={`EffectiveDateTime-${index}`}
                           type='datetime-local'
-                          value={initialData.FRF_list[index]?.EffectiveDateTime || moment().format('YYYY-MM-DDTHH:mm')}
+                          value={initialData.FRF_list[index]?.EffectiveDateTime || moment().format('MM/DD/YYYYTHH:mm')}
                           onChange={handleChange}
                           fullWidth
                           size="small"
@@ -592,7 +592,7 @@ const CustomerPriceRule = (props: Props) => {
                       <TextValidator
                         label="Effective Date Time"
                         name={`EffectiveDateTime-${index}`}
-                        value={initialData.PRF_list[index]?.EffectiveDateTime || moment.utc().format('YYYY-MM-DDTHH:mm')}
+                        value={initialData.PRF_list[index]?.EffectiveDateTime || moment.utc().format('MM/DD/YYYYTHH:mm')}
                         type="datetime-local"
                         onChange={handleChange}
                         fullWidth
