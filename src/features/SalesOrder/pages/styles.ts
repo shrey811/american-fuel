@@ -18,7 +18,7 @@ export const ShipBillStyles = {
     width: 'calc( 100% + 0px)',
 }
 export const DeliveryBillStyles = {
-    border: '1px solid lightgray',
+    // border: '1px solid lightgray',
     padding: '1.2rem',
     marginTop: '0rem',
     marginLeft: '1.5rem',
@@ -45,6 +45,12 @@ export const deliverysStyles = {
 export const headTableCellStyles = {
     border: '1px solid rgba(224, 224, 224, 1)',
     padding: '8px 14px',
+
+}
+export const deliveryTableCellStyles = {
+    border: '1px solid rgba(224, 224, 224, 1)',
+    padding: '8px 14px',
+    backgroundColor: 'rgb(242, 241, 255)',
 }
 
 export const tableCellStyles = {
