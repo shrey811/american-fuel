@@ -2,8 +2,8 @@ export const API_URL = import.meta.env.VITE_API_URL;
 export const STORAGE_KEY = 'quick-smart';
 
 const base_URL = 'http://localhost:8000';
-// const base_URL = 'https://gofuel.finliftconsulting.com.np'; //mahuwa
-// const base_URL = 'https://qbtest.finliftconsulting.com.np'; //dev
+// const base_URL = 'https://gofuel.finliftconsulting.com.np';
+
 
 export const rootConstants = Object.freeze({
   // TEST_URL: `${API_URL}`,

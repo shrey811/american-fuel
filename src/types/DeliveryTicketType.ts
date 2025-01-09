@@ -16,7 +16,8 @@ export interface DeliverDataType {
     ProductsDetail: [
         {
             ProductName: string,
-            DeliveredQuantity: number
+            DeliveredQuantity: number,
+            ProductId: number,
         }
     ],
     AssetsDetail: [
@@ -24,6 +25,15 @@ export interface DeliverDataType {
             AssetName: string,
             ProductName: string,
             DeliveredQuantity: number
+        }
+    ],
+    OtherChargesDetail: [
+        {
+            OtherChargesName: string,
+            Quantity: number,
+            UnitPrice: number,
+            Amount: number,
+            OtherChargesId: number
         }
     ]
 }
