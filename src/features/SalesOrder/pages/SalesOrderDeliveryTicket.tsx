@@ -85,83 +85,119 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
             const pdf = new jsPDF('p', 'mm', 'a4');
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-            pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+            const topMargin = 10; // Add top margin of 10mm
+            pdf.addImage(imgData, 'JPEG', 0, topMargin, pdfWidth, pdfHeight);
             pdf.save('DeliveryTicket.pdf');
         }
     };
+
 
     return (
         <div>
             <div ref={deliveryRef}>
                 <Box sx={{ padding: '1.5rem' }}>
                     <Grid container spacing={3} sx={{ marginBottom: '20px' }}>
-                        <Grid container sx={{ marginBottom: '20px' }}>
+                        <Grid container >
                             {/* Left Section */}
                             <Grid item xs={6} sx={{ textAlign: 'left' }}>
                                 <img
                                     src={Logo}
                                     alt="Better Day Energy Logo"
-                                    style={{ width: '50%', marginBottom: '0.1rem' }}
+                                    style={{ width: '70%', marginLeft: '1.5rem', marginBottom: '0.1rem', }}
                                 />
-                                <Typography variant="body1" sx={{ lineHeight: 1.5, fontWeight: 'bold', fontSize: '0.92rem', marginTop: '1rem', marginLeft: '40px' }}>
+                                {/* <Typography variant="body1" sx={{ lineHeight: 1.5, fontWeight: 'bold', fontSize: '0.92rem', marginTop: '1rem', marginLeft: '40px' }}>
                                     American Petroleum
-                                </Typography>
-                                <Typography variant="body1" sx={{ lineHeight: 1.5, fontSize: '0.82rem', marginLeft: '40px' }}>
-                                    140 Enterprise Parkway
-                                </Typography>
-                                <Typography variant="body1" sx={{ marginLeft: '40px' }}>Boerne, TX, USA</Typography>
+                                </Typography> */}
+
                             </Grid>
+                            {/* <Grid item xs={4} sx={{ textAlign: 'center' }}>
+                                <Typography variant="h2" sx={{ fontWeight: 'bold', color: '#BC1B21' }}>
+                                    Delivery Receipt
+                                </Typography>
 
-
-
+                            </Grid> */}
                             {/* Right Section */}
                             <Grid item xs={6} sx={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', }}>
-                                <Typography variant="subtitle1" sx={{ fontSize: '15px', marginTop: '2.5rem' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                                        <span style={{ fontWeight: 'bold', width: '115px', fontSize: '0.92rem' }}>SO Order No.:</span>
-                                        <span style={{ fontSize: '0.92rem' }}>{delivertTicketList?.DTOrderNo || 'N/A'}</span>
-                                    </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                                        <span style={{ fontWeight: 'bold', width: '115px', fontSize: '0.92rem' }}>Arrived At:</span>
-                                        <span style={{ fontSize: '0.92rem' }}>{moment.utc(delivertTicketList?.ArrivedAt).format('MM/DD/YYYY hh:mm A') || 'N/A'}</span>
-                                    </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                                        <span style={{ fontWeight: 'bold', width: '115px', fontSize: '0.92rem' }}>Completed:</span>
-                                        <span style={{ fontSize: '0.92rem' }}>{moment.utc(delivertTicketList?.Completed).format('MM/DD/YYYY hh:mm A') || 'N/A'}</span>
-                                    </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                                        <span style={{ fontWeight: 'bold', width: '115px', fontSize: '0.92rem' }}>Delivered By:</span>
-                                        <span style={{ fontSize: '0.92rem' }}>{delivertTicketList?.DeliveredBy || 'N/A'}</span>
-                                    </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                                        <span style={{ fontWeight: 'bold', width: '115px', fontSize: '0.92rem' }}>Truck#:</span>
-                                        <span style={{ fontSize: '0.92rem' }}>{delivertTicketList?.DTTruck || 'N/A'}</span>
-                                    </div>
+                                <Typography variant="body1" sx={{ lineHeight: 1.5, fontSize: '1rem', marginLeft: '40px', fontWeight: 'bold', marginTop: '3rem', fontFamily: 'Aptos' }}>
+                                    140 Enterprise Parkway
                                 </Typography>
+                                <Typography variant="body1" sx={{ marginLeft: '40px', fontSize: '1rem', fontWeight: 'bold', fontFamily: 'Aptos' }}>Boerne, TX, USA</Typography>
+
+
                             </Grid>
+                        </Grid>
+                        <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#BC1B21', marginTop: '2rem', fontFamily: 'Aptos' }}>
+                                Delivery Receipt
+                            </Typography>
                         </Grid>
                         <Divider sx={{ marginBottom: '10px' }} />
 
 
-                        <Grid container spacing={3} sx={DeliveryBillStyles}>
+                        <Grid container spacing={6} sx={DeliveryBillStyles}>
                             <Grid item xs={4} sx={{ padding: '0rem !important' }}>
-                                <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>Bill To:</Typography>
-                                {delivertTicketList ? (
-                                    <div>
-                                        <Typography variant="body1"> {delivertTicketList?.BillTo?.split(",")[0] || 'N/A'}</Typography>
+                                <Typography variant="subtitle1" sx={{ fontSize: '15px', marginTop: '1rem' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', fontFamily: 'Aptos' }}>
+                                        <span style={{ fontWeight: 'bold', width: '115px', fontSize: '0.92rem', fontFamily: 'Aptos' }}>Bill To:</span>
+                                        <span style={{ fontSize: '0.92rem' }}>     {delivertTicketList?.BillTo?.split(",")[0] || 'N/A'}</span>
+                                    </div>
 
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+                                        <span style={{ fontWeight: 'bold', width: '115px', fontSize: '0.92rem', fontFamily: 'Aptos' }}>SO Order # :</span>
+                                        <span style={{ fontSize: '0.92rem', fontFamily: 'Aptos' }}>{delivertTicketList?.DTOrderNo || 'N/A'}</span>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', fontFamily: 'Aptos' }}>
+                                        <span style={{ fontWeight: 'bold', width: '115px', fontSize: '0.92rem', fontFamily: 'Aptos' }}>Truck#:</span>
+                                        <span style={{ fontSize: '0.92rem' }}>{delivertTicketList?.DTTruck || 'N/A'}</span>
+                                    </div>
+
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', fontFamily: 'Aptos' }}>
+                                        <span style={{ fontWeight: 'bold', width: '115px', fontSize: '0.92rem', fontFamily: 'Aptos' }}>Delivery to:</span>
+                                        <span style={{ fontSize: '0.92rem', width: '10rem' }}> {(() => {
+                                            const deliveryTo = delivertTicketList.DeliveryTo || '';
+                                            const line1Match = deliveryTo.match(/Line1='([^']*)'/)?.[1] || 'N/A';
+                                            const stateMatch = deliveryTo.match(/StatesFId=(\d+)/)?.[1] || 'N/A';
+                                            const cityMatch = deliveryTo.match(/CitiesFId=(\d+)/)?.[1] || 'N/A';
+                                            const stateName = getStateNameById(Number(stateMatch));
+                                            const cityName = getCityNameById(Number(cityMatch));
+                                            return `${line1Match}, ${cityName}, ${stateName}`;
+                                        })()}</span>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', fontFamily: 'Aptos' }}>
+                                        <span style={{ fontWeight: 'bold', width: '115px', fontSize: '0.92rem', fontFamily: 'Aptos' }}>Delivered By:</span>
+                                        <span style={{ fontSize: '0.92rem' }}>{delivertTicketList?.DeliveredBy || 'N/A'}</span>
+                                    </div>
+
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+                                        <span style={{ fontWeight: 'bold', width: '115px', fontSize: '0.92rem', fontFamily: 'Aptos' }}>Arrived At:</span>
+                                        <span style={{ fontSize: '0.92rem', fontFamily: 'Aptos' }}>{moment.utc(delivertTicketList?.ArrivedAt).format('MM/DD/YYYY hh:mm A') || 'N/A'}</span>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', fontFamily: 'Aptos' }}>
+                                        <span style={{ fontWeight: 'bold', width: '115px', fontSize: '0.92rem', fontFamily: 'Aptos' }}>Completed:</span>
+                                        <span style={{ fontSize: '0.92rem' }}>{moment.utc(delivertTicketList?.Completed).format('MM/DD/YYYY hh:mm A') || 'N/A'}</span>
+                                    </div>
+
+
+
+
+                                </Typography>
+
+                                {/* {delivertTicketList ? (
+                                    <div>
+                                        <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px', display: 'inline', fontSize: '0.92rem', fontFamily: 'Aptos' }}>Bill To:</Typography>
+                                        <Typography variant="body1" sx={{ display: 'inline', fontSize: '0.92rem', marginLeft: '10px', fontFamily: 'Aptos' }}>
+                                            {delivertTicketList?.BillTo?.split(",")[0] || 'N/A'}
+                                        </Typography>
                                     </div>
                                 ) : (
-                                    <Typography variant="body2">Loading Bill To Address...</Typography>
+                                    <Typography variant="body2" sx={{ display: 'inline' }}>Loading Bill To Address...</Typography>
                                 )}
-                            </Grid>
-                            <Grid xs={4}></Grid>
 
-                            <Grid item xs={4} sx={{ textAlign: 'right', padding: '0rem !important' }}>
-                                <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>Delivery Address:</Typography>
+
                                 {delivertTicketList ? (
                                     <div>
-                                        <Typography variant="body1"> {(() => {
+                                        <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px', display: 'inline', fontSize: '0.92rem', fontFamily: 'Aptos' }}>Delivery Address:</Typography>
+                                        <Typography variant="body1" sx={{ display: 'inline', fontSize: '0.92rem', marginLeft: '10px', fontFamily: 'Aptos' }}> {(() => {
                                             const deliveryTo = delivertTicketList.DeliveryTo || '';
                                             const line1Match = deliveryTo.match(/Line1='([^']*)'/)?.[1] || 'N/A';
                                             const stateMatch = deliveryTo.match(/StatesFId=(\d+)/)?.[1] || 'N/A';
@@ -175,7 +211,12 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
                                     </div>
                                 ) : (
                                     <Typography variant="body2">Loading Ship To Address...</Typography>
-                                )}
+                                )} */}
+                            </Grid>
+                            <Grid xs={4}></Grid>
+
+                            <Grid item xs={4} sx={{ textAlign: 'right', padding: '0rem !important' }}>
+
                             </Grid>
                         </Grid>
 
@@ -186,9 +227,9 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
                         <Table>
                             <TableHead sx={deliveryTableCellStyles}>
                                 <TableRow>
-                                    <TableCell sx={{ fontSize: '0.8rem', width: '20%' }}>Item</TableCell>
-                                    <TableCell sx={{ fontSize: '0.8rem', width: '50%', textAlign: 'center' }}>Description</TableCell>
-                                    <TableCell sx={{ fontSize: '0.8rem', width: '30%', textAlign: 'right' }}>
+                                    <TableCell sx={{ fontSize: '0.8rem', width: '20%', fontFamily: 'Aptos' }}>Item</TableCell>
+                                    <TableCell sx={{ fontSize: '0.8rem', width: '50%', textAlign: 'center', fontFamily: 'Aptos' }}>Description</TableCell>
+                                    <TableCell sx={{ fontSize: '0.8rem', width: '30%', textAlign: 'right', fontFamily: 'Aptos' }}>
                                         Delivered Quantity (gal)
                                     </TableCell>
                                 </TableRow>
@@ -201,11 +242,11 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
                                             const productDetails = productList.find((option) => option.Id === asset.ProductId);
                                             return (
                                                 <TableRow key={index}>
-                                                    <TableCell sx={{ fontSize: '0.8rem', width: '20%' }}>
+                                                    <TableCell sx={{ fontSize: '0.8rem', width: '20%', fontFamily: 'Aptos' }}>
                                                         {asset.ProductName || 'N/A'}
                                                     </TableCell>
-                                                    <TableCell sx={{ fontSize: '0.8rem', width: '50%', textAlign: 'center' }}> {productDetails ? productDetails.SaleDesc : 'No Description Available'}</TableCell>
-                                                    <TableCell sx={{ fontSize: '0.8rem', width: '30%', textAlign: 'right' }}>
+                                                    <TableCell sx={{ fontSize: '0.8rem', width: '50%', textAlign: 'center', fontFamily: 'Aptos' }}> {productDetails ? productDetails.SaleDesc : 'No Description Available'}</TableCell>
+                                                    <TableCell sx={{ fontSize: '0.8rem', width: '30%', textAlign: 'right', fontFamily: 'Aptos' }}>
                                                         {asset.DeliveredQuantity || 0}
                                                     </TableCell>
                                                 </TableRow>
@@ -214,11 +255,11 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
 
                                         {/* Calculate the total and add a summary row */}
                                         <TableRow>
-                                            <TableCell sx={{ fontSize: '0.8rem', width: '20%' }}>
+                                            <TableCell sx={{ fontSize: '0.8rem', width: '20%', fontFamily: 'Aptos' }}>
                                                 <strong>Total</strong>
                                             </TableCell>
-                                            <TableCell sx={{ fontSize: '0.8rem', width: '50%' }}></TableCell>
-                                            <TableCell sx={{ fontSize: '0.8rem', width: '30%', textAlign: 'right' }}>
+                                            <TableCell sx={{ fontSize: '0.8rem', width: '50%', fontFamily: 'Aptos' }}></TableCell>
+                                            <TableCell sx={{ fontSize: '0.8rem', width: '30%', textAlign: 'right', fontFamily: 'Aptos' }}>
                                                 <strong>
                                                     {delivertTicketList?.ProductsDetail.reduce(
                                                         (total: number, asset: any) => total + (asset.DeliveredQuantity || 0),
@@ -235,7 +276,7 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
 
                     <Divider sx={{ marginBottom: '25px' }} />
 
-                    {delivertTicketList?.OtherChargesDetail?.length > 0 && (
+                    {/* {delivertTicketList?.OtherChargesDetail?.length > 0 && (
                         <>
 
                             <TableContainer component={Paper}>
@@ -262,31 +303,31 @@ const DeliveryTicketPage = ({ salesOrderId }: Props) => {
                             </TableContainer>
 
                         </>
-                    )}
+                    )} */}
 
 
                     {/* <Divider sx={{ marginBottom: '25px' }} /> */}
 
                     {delivertTicketList?.AssetsDetail?.length > 0 && (
                         <>
-                            <Typography sx={{ marginBottom: '25px', marginTop: '25px' }} variant="h6">Delivered Asset:</Typography>
+                            <Typography sx={{ marginBottom: '25px', marginTop: '25px', fontFamily: 'Aptos' }} variant="h6">Breakdown By Asset:</Typography>
                             <TableContainer component={Paper}>
                                 <Table>
                                     <TableHead sx={deliveryTableCellStyles}>
                                         <TableRow>
-                                            <TableCell sx={{ fontSize: '0.8rem', width: '20%' }}>Asset Name</TableCell>
-                                            <TableCell sx={{ fontSize: '0.8rem', width: '50%', textAlign: 'center' }}>Product Name</TableCell>
+                                            <TableCell sx={{ fontSize: '0.8rem', width: '20%', fontFamily: 'Aptos' }}>Asset Name</TableCell>
+                                            <TableCell sx={{ fontSize: '0.8rem', width: '50%', textAlign: 'center', fontFamily: 'Aptos' }}>Product Name</TableCell>
 
-                                            <TableCell sx={{ fontSize: '0.8rem', width: '30%', textAlign: 'right' }}>Delivered Quantity (gal)</TableCell>
+                                            <TableCell sx={{ fontSize: '0.8rem', width: '30%', textAlign: 'right', fontFamily: 'Aptos' }}>Delivered Quantity (gal)</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {delivertTicketList?.AssetsDetail.map((asset: any, index: number) => (
                                             <TableRow key={index}>
-                                                <TableCell sx={{ fontSize: '0.8rem', width: '20%' }}>{asset.AssetName || 'N/A'}</TableCell>
-                                                <TableCell sx={{ fontSize: '0.8rem', width: '50%', textAlign: 'center' }}>{asset.ProductName || 'N/A'}</TableCell>
+                                                <TableCell sx={{ fontSize: '0.8rem', width: '20%', fontFamily: 'Aptos' }}>{asset.AssetName || 'N/A'}</TableCell>
+                                                <TableCell sx={{ fontSize: '0.8rem', width: '50%', textAlign: 'center', fontFamily: 'Aptos' }}>{asset.ProductName || 'N/A'}</TableCell>
 
-                                                <TableCell sx={{ fontSize: '0.8rem', width: '30%', textAlign: 'right' }}>{asset.DeliveredQuantity || 0}</TableCell>
+                                                <TableCell sx={{ fontSize: '0.8rem', width: '30%', textAlign: 'right', fontFamily: 'Aptos' }}>{asset.DeliveredQuantity || 0}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>

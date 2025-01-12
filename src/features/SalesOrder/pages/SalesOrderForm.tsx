@@ -1653,11 +1653,11 @@ const SalesOrderForm = (props: Props) => {
                                     {/* <TableCell>Other Charges Price</TableCell> */}
                                     {/* <TableCell>Income Account</TableCell>
                                     <TableCell>Expense Account</TableCell> */}
-                                    <TableCell>Description</TableCell>
+                                    {/* <TableCell>Description</TableCell>
                                     <TableCell>Gross Quantity</TableCell>
                                     <TableCell>Net Quantity</TableCell>
-                                    <TableCell>Basis</TableCell>
-                                    <TableCell>Billed Quantity</TableCell>
+                                    <TableCell>Basis</TableCell> */}
+                                    <TableCell>Quantity</TableCell>
                                     <TableCell>Unit Rate</TableCell>
                                     <TableCell>Amount</TableCell>
                                     <TableCell>Action</TableCell>
@@ -1701,7 +1701,7 @@ const SalesOrderForm = (props: Props) => {
                                                 onChange={(e) => handleChargeChange(index, 'Price', (e.target as HTMLInputElement).value)}
                                             />
                                         </TableCell> */}
-                                        <TableCell sx={tableFormStyles}>
+                                        {/* <TableCell sx={tableFormStyles}>
                                             <TextValidator
                                                 // onChange={(e) => handleProductChange(index, e)}
                                                 name="Description"
@@ -1750,7 +1750,7 @@ const SalesOrderForm = (props: Props) => {
                                                 <MenuItem value="Net" >Net</MenuItem>
                                                 <MenuItem value="Gross">Gross</MenuItem>
                                             </TextValidator>
-                                        </TableCell>
+                                        </TableCell> */}
                                         <TableCell sx={tableFormStyles}>
                                             <TextValidator
                                                 name="BilledQuantity"
